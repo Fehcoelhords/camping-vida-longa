@@ -1,0 +1,37 @@
+/* Sobrescrevendo estilos do React Datepicker para um tema escuro */
+.react-datepicker {
+  background-color: #1a1a1a !important; /* bg-dark-bg */
+  border: 1px solid #2e4c3e !important; /* brand-green */
+  color: #eaeaea; /* main-text */
+  border-radius: 1rem !important;
+}
+.react-datepicker__header {
+  background-color: #2e4c3e !important;
+  border-bottom: 1px solid #1a1a1a !important;
+}
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker__day-name {
+  color: #eaeaea !important;
+  font-weight: bold !important;
+}
+.react-datepicker__day {
+  color: #a0a0a0 !important; /* secondary-text */
+}
+.react-datepicker__day:hover {
+  background-color: #2e4c3e !important;
+  color: #ffffff !important;
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: #ff7a00 !important; /* brand-orange */
+  color: #ffffff !important;
+}
+.react-datepicker__day--disabled {
+  color: #555 !important;
+  cursor: default;
+}
+.react-datepicker__navigation-icon::before {
+  border-color: #eaeaea !important;
+}
