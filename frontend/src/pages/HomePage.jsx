@@ -9,13 +9,12 @@ import ServiceCard from "../components/ServiceCard";
 import ServiceModal from "../components/ServiceModal";
 import TestimonialsCarousel from "../components/TestimonialsCarousel";
 
-// Imagens dos Serviços (principais)
+// Imagens
 import imgServicoCabanas from "../assets/services/servico-cabanas.jpg";
 import imgServicoHostel from "../assets/service-details/hostel/entrada-do-hostel.jpg";
 import imgServicoRefeicoes from "../assets/services/servico-refeicoes.png";
 import imgServicoPasseios from "../assets/services/servico-passeios.jpg";
-
-// Imagens de detalhe para os modais
+// Imagens de detalhe
 import cabanaDetail1 from "../assets/services/cabanas/cabana-detalhe-1.jpg";
 import cabanaDetail2 from "../assets/services/cabanas/cabana-detalhe-2.jpg";
 import cabanaDetail3 from "../assets/services/cabanas/cabana-detalhe-3.jpg";
@@ -36,18 +35,18 @@ import passeiosDetail4 from "../assets/services/passeios/passeio-detalhe-4.jpg";
 const servicesData = [
   {
     id: "cabanas",
-    title: "Cabanas",
+    title: "Camping",
     mainImage: imgServicoCabanas,
-    description:
-      "Nossas cabanas de madeira oferecem o equilíbrio perfeito entre o charme rústico e o conforto moderno. Cada unidade conta com camas confortáveis, banheiro privativo com água quente, uma pequena cozinha e uma varanda com vista para a floresta. Ideal para casais ou famílias pequenas que buscam uma imersão na natureza sem abrir mão do aconchego.",
+    // --- DESCRIÇÃO ATUALIZADA ---
+    description: `Conforto, Natureza e Conexão em um Só Lugar\n\nSe você busca um refúgio tranquilo para se desconectar da rotina e se reconectar com o que realmente importa, nossa área de camping em meio à floresta é o destino ideal.\n\n🌿 Um espaço pensado para famílias, casais e grupos de amigos que desejam curtir a natureza com conforto, segurança e praticidade.\n\n🌟 O que você encontra aqui:\n✔️ Espaço para sua barraca (ou alugue uma conosco!)\n✔️ Banheiros compartilhados sempre limpos\n✔️ Cozinha comunitária com utensílios, fogão e geladeira\n✔️ Ambiente seguro e acolhedor, rodeado por trilhas e sons da natureza\n✔️ Espaço para fogueira, descanso e convivência`,
     images: [cabanaDetail1, cabanaDetail2, cabanaDetail3, cabanaDetail4],
   },
   {
     id: "hostel",
     title: "Hostel",
     mainImage: imgServicoHostel,
-    description:
-      "Para quem prefere a comodidade de uma estrutura central e a oportunidade de conhecer outros viajantes, nossos quartos no hostel principal são a escolha ideal. Com acesso fácil ao restaurante e áreas comuns, os quartos são espaçosos, bem decorados e garantem uma noite de sono tranquila após um dia de aventuras.",
+    // --- DESCRIÇÃO ATUALIZADA ---
+    description: `Seu Cantinho Aconchegante para Novas Experiências\n\nProcurando um lugar tranquilo, acolhedor e com aquele clima gostoso de casa compartilhada? Nosso hostel foi pensado para quem valoriza boas conversas, novas amizades e momentos leves.\n\n✨ Com capacidade para até 8 pessoas, oferecemos um ambiente descontraído, organizado e ideal para viajantes solo, grupos pequenos ou quem ama conhecer gente nova.\n\nAqui, você encontra mais do que uma cama confortável. Encontra histórias, conexões e amizades que podem durar uma vida inteira.\n\nSeja para um fim de semana, uma temporada mais longa ou uma parada estratégica em sua viagem, o nosso hostel é aquele tipo de lugar que faz você se sentir em casa — mesmo longe dela.`,
     images: [
       hostelEntrada1,
       hostelTodasAsCamas,
@@ -59,16 +58,16 @@ const servicesData = [
     id: "refeicoes",
     title: "Refeições",
     mainImage: imgServicoRefeicoes,
-    description:
-      "Oferecemos um delicioso café da manhã com produtos locais e frescos para começar bem o seu dia. Para o jantar, nosso restaurante serve pratos caseiros e saborosos. Também preparamos cestas de piquenique e kits para churrasco para você aproveitar ao máximo sua experiência ao ar livre.",
+    // --- DESCRIÇÃO ATUALIZADA ---
+    description: `Sabores que Aconchegam\n\nAqui, cada refeição é pensada para fazer você se sentir em casa — com cheirinho de comida boa no ar e muito sabor em cada detalhe.\n\nComece o dia com carinho com nosso delicioso café da manhã, com destaque para o nosso pão caseiro, feito com muito amor. Um convite para sentar, apreciar a natureza, se saborear e começar o dia com calma e energia boa.\n\nQuando o sol se põe, o aroma irresistível de pizza artesanal toma conta do ambiente. A partir das 18h, servimos pizzas feitas com massa artesanal e ingredientes frescos escolhidos a dedo. Escolha entre opções clássicas ou surpreenda-se com combinações criativas — temos alternativas para todos os gostos, inclusive vegetarianas.`,
     images: [refeicoesDetail1, refeicoesDetail2, refeicoesDetail3],
   },
   {
     id: "passeios",
     title: "Passeios",
     mainImage: imgServicoPasseios,
-    description:
-      "A aventura espera por você! Oferecemos passeios guiados por trilhas que levam a cachoeiras secretas, aluguel de caiaques para explorar nosso lago cristalino e passeios noturnos para observação de estrelas. Nossos guias experientes garantem uma experiência segura e inesquecível.",
+    // --- DESCRIÇÃO ATUALIZADA ---
+    description: `Explore o Paraíso com a Gente!\n\nPraias cristalinas, natureza preservada e roteiros que só quem conhece bem pode te mostrar.\n\nDescubra os encantos de Ilha Grande com nossos passeios especialmente pensados para quem quer viver uma experiência autêntica, segura e inesquecível. Seja por mar ou por terra, você vai se surpreender com paisagens de tirar o fôlego e lugares que poucos têm o privilégio de conhecer.\n\nSeja você aventureiro, amante da natureza ou apenas alguém em busca de paz, temos o roteiro ideal para tornar sua visita à Ilha Grande ainda mais especial.`,
     images: [
       passeiosDetail1,
       passeiosDetail2,
