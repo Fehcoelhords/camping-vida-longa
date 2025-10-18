@@ -23,20 +23,17 @@ const sendPreBookingEmailToCustomer = async (booking) => {
       whatsappMessage
     )}`;
 
-    // A lógica condicional foi removida.
     console.log(`Enviando e-mail de pré-reserva para o cliente: ${email}...`);
 
     await resend.emails.send({
-      // Usamos o seu domínio verificado como remetente
       from: `Camping Vida Longa <contato@campingvidalonga.com.br>`,
-      // E agora, SEMPRE usamos o e-mail do cliente como destinatário
       to: [email],
       subject:
         "Instruções para confirmar sua pré-reserva no Camping Vida Longa",
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
           <h2 style="color: #FF7A00;">Olá, ${name}! Sua pré-reserva foi recebida!</h2>
-          <p>Para confirmar sua vaga, é necessário o pagamento de 50% do valor total via Pix. Sua vaga ficará reservada por <strong>24 horas</strong>.</p>
+          <p>Sua vaga no paraíso está quase garantida! Para confirmar sua reserva, é necessário o pagamento antecipado de 50% do valor total.</p>
           <hr style="border-color: #eee;">
           <h3>Detalhes da Pré-Reserva:</h3>
           <ul>
@@ -83,18 +80,61 @@ const sendPreBookingEmailToCustomer = async (booking) => {
 
 const sendNewBookingNotificationToOwner = async (booking) => {
   try {
+    const {
+      name,
+      email,
+      phone,
+      startDate,
+      endDate,
+      guests,
+      bookingCode,
+      totalPrice,
+      bookingType,
+    } = booking;
     const ownerEmail = process.env.OWNER_EMAIL;
     if (!ownerEmail) {
       console.error("OWNER_EMAIL não definido no .env");
       return;
     }
     const fromAddress = "sistema@campingvidalonga.com.br";
+    const formattedStartDate = new Date(startDate).toLocaleDateString("pt-BR");
+    const formattedEndDate = new Date(endDate).toLocaleDateString("pt-BR");
+    const depositAmount = (totalPrice * 0.5).toFixed(2).replace(".", ",");
+
     console.log(`Enviando notificação para ${ownerEmail}...`);
+
     await resend.emails.send({
       from: `Sistema de Reservas <${fromAddress}>`,
       to: [ownerEmail],
-      subject: `Nova Pré-Reserva Recebida! - ${booking.name} (${booking.bookingCode})`,
-      html: `(O HTML completo do e-mail da Bianca vai aqui...)`,
+      subject: `Nova Pré-Reserva Recebida! - ${name} (${bookingCode})`,
+      // --- TEMPLATE HTML ATUALIZADO PARA A BIANCA ---
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px;">
+          <h2 style="color: #FF7A00;">Nova Pré-Reserva no Site!</h2>
+          <p>Olá Bianca, uma nova pré-reserva foi solicitada e está aguardando a confirmação do pagamento pelo WhatsApp.</p>
+          <hr style="border-color: #eee;">
+          <h3 style="color: #333;">Detalhes do Cliente</h3>
+          <ul style="list-style-type: none; padding: 0;">
+            <li><strong>Nome:</strong> ${name}</li>
+            <li><strong>E-mail:</strong> <a href="mailto:${email}">${email}</a></li>
+            <li><strong>Telefone/WhatsApp:</strong> ${phone}</li>
+          </ul>
+          <hr style="border-color: #eee;">
+          <h3 style="color: #333;">Detalhes da Reserva</h3>
+          <ul style="list-style-type: none; padding: 0;">
+            <li><strong>Código da Reserva:</strong> <span style="font-size: 1.2em; font-weight: bold; color: #FF7A00;">${bookingCode}</span></li>
+            <li><strong>Estadia:</strong> ${bookingType}</li>
+            <li><strong>Período:</strong> ${formattedStartDate} a ${formattedEndDate}</li>
+            <li><strong>Hóspedes:</strong> ${guests}</li>
+            <li><strong>Valor Total:</strong> R$ ${totalPrice
+              .toFixed(2)
+              .replace(".", ",")}</li>
+            <li><strong>Sinal a ser pago (50%):</strong> R$ ${depositAmount}</li>
+          </ul>
+          <hr style="border-color: #eee;">
+          <p style="font-size: 0.9em; color: #777;">Aguarde o contato do cliente pelo WhatsApp com o comprovante de pagamento para confirmar a reserva no seu calendário.</p>
+        </div>
+      `,
     });
     console.log(`Notificação para ${ownerEmail} enviada com sucesso.`);
   } catch (error) {
