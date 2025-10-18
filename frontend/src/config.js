@@ -1,20 +1,19 @@
 // Este arquivo define os diferentes tipos de reserva disponíveis.
-// Adicionamos um 'type' para diferenciar o cálculo e um 'baseGuests' para os preços fixos.
 
 export const pricingTiers = [
   {
     id: "propria_individual",
     name: "Barraca Própria (Individual)",
     description: "Para 1 pessoa trazendo seu próprio equipamento.",
-    price: 40, // Preço fixo da diária
-    type: "fixed", // Tipo de cálculo
-    baseGuests: 1, // Número de hóspedes base para este preço
+    price: 40,
+    type: "fixed",
+    baseGuests: 1,
   },
   {
     id: "propria_casal",
     name: "Barraca Própria (Casal)",
     description: "Para 2 pessoas trazendo seu próprio equipamento.",
-    price: 70, // Preço fixo da diária
+    price: 70,
     type: "fixed",
     baseGuests: 2,
   },
@@ -22,16 +21,17 @@ export const pricingTiers = [
     id: "alugada",
     name: "Barraca Alugada pelo Camping",
     description: "Nós fornecemos a barraca. O valor é por pessoa.",
-    price: 50, // Preço por pessoa da diária
+    price: 50,
     type: "per_person",
   },
-  // Mantive a opção de Cabana que tínhamos antes.
-  // Se não quiser usá-la, podemos remover este bloco de código depois.
+  // --- MUDANÇAS APLICADAS AQUI ---
   {
-    id: "cabana",
-    name: "Cabana da Floresta",
-    description: "Hospedagem em nossas cabanas com mais conforto.",
-    price: 80, // Preço por pessoa da diária
+    id: "hostel", // ID atualizado
+    name: "Hostel", // Nome atualizado
+    description:
+      "Hospedagem em nosso alojamento compartilhado, com mais conforto e interação.",
+    price: 80, // Mantive o preço de 80, ajuste se necessário
     type: "per_person",
+    maxGuests: 8, // Nova regra de negócio: máximo de 8 hóspedes
   },
 ];

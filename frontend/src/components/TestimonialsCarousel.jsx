@@ -1,42 +1,61 @@
 import React, { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import TestimonialCard from "./TestimonialCard";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-// Dados dos depoimentos (podemos mover para outro lugar no futuro, mas por enquanto fica aqui)
-const testimonialsData = [
-  {
-    quote:
-      "Uma experiência verdadeiramente mágica. As cabanas são confortáveis e a vista das estrelas é algo que nunca esqueceremos. Mal posso esperar para voltar!",
-    author: "Mariana Silva",
-    location: "São Paulo, SP",
-  },
-  {
-    quote:
-      "O lugar perfeito para desligar da cidade. As trilhas são bem cuidadas e a equipe é extremamente atenciosa. Recomendo para qualquer um que precise recarregar as energias.",
-    author: "Rafael Costa",
-    location: "Rio de Janeiro, RJ",
-  },
-  {
-    quote:
-      "Fui com meus filhos e eles amaram. A segurança é ótima e as atividades de recreação são um diferencial. O café da manhã com produtos locais é delicioso!",
-    author: "Família Oliveira",
-    location: "Belo Horizonte, MG",
-  },
-  {
-    quote:
-      "Como fotógrafo da natureza, encontrei um paraíso. Cada canto do camping é um cartão postal. A paz e o silêncio são revigorantes. Voltarei com certeza.",
-    author: "Júlio Andrade",
-    location: "Curitiba, PR",
-  },
+// --- 1. IMPORTANDO TODAS AS 22 IMAGENS ---
+// (Certifique-se que os nomes e extensões dos arquivos batem exatamente)
+import C1 from "../assets/testimonials/comentarios1.JPEG";
+import C2 from "../assets/testimonials/comentarios2.JPEG";
+import C3 from "../assets/testimonials/comentarios3.JPEG";
+import C4 from "../assets/testimonials/comentarios4.JPEG";
+import C5 from "../assets/testimonials/comentarios5.JPEG";
+import C6 from "../assets/testimonials/comentarios6.JPEG";
+import C7 from "../assets/testimonials/comentarios7.JPEG";
+import C8 from "../assets/testimonials/comentarios8.JPEG";
+import C9 from "../assets/testimonials/comentarios9.JPEG";
+import C10 from "../assets/testimonials/comentarios10.JPEG";
+import C11 from "../assets/testimonials/comentarios11.JPEG";
+import C12 from "../assets/testimonials/comentarios12.JPEG";
+import C13 from "../assets/testimonials/comentarios13.JPEG";
+import C14 from "../assets/testimonials/comentarios14.JPEG";
+import C15 from "../assets/testimonials/comentarios15.JPEG";
+import C16 from "../assets/testimonials/comentarios16.JPEG";
+import C17 from "../assets/testimonials/comentarios17.JPEG";
+import C18 from "../assets/testimonials/comentarios18.JPEG";
+import C19 from "../assets/testimonials/comentarios19.JPEG";
+import C20 from "../assets/testimonials/comentarios20.JPEG";
+import C21 from "../assets/testimonials/comentarios21.JPEG";
+import C22 from "../assets/testimonials/comentarios22.JPEG";
+
+// --- 2. ARRAY APENAS COM AS IMAGENS ---
+const testimonialImages = [
+  C1,
+  C2,
+  C3,
+  C4,
+  C5,
+  C6,
+  C7,
+  C8,
+  C9,
+  C10,
+  C11,
+  C12,
+  C13,
+  C14,
+  C15,
+  C16,
+  C17,
+  C18,
+  C19,
+  C20,
+  C21,
+  C22,
 ];
 
 function TestimonialsCarousel() {
-  // O hook 'useEmblaCarousel' nos dá o controle do carrossel.
-  // { loop: true } faz com que ele seja infinito.
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
-  // Funções para rolar para o slide anterior e próximo
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
@@ -47,27 +66,29 @@ function TestimonialsCarousel() {
 
   return (
     <div className="relative">
-      {/* O 'emblaRef' é a referência que a biblioteca usa para identificar o carrossel */}
       <div className="overflow-hidden" ref={emblaRef}>
-        {/* Container dos slides */}
+        {/* --- 3. NOVA ESTRUTURA DO SLIDE --- */}
+        {/* O map agora renderiza uma imagem em cada slide */}
         <div className="flex">
-          {testimonialsData.map((testimonial, index) => (
-            // Cada slide ocupa o espaço de 1, 2 ou 3 por tela, dependendo do tamanho
+          {testimonialImages.map((imgSrc, index) => (
+            // Layout responsivo: 1 imagem em telas pequenas, 2 em médias, 3 em grandes
             <div
-              className="flex-grow-0 flex-shrink-0 w-full md:w-1/2 lg:w-1/3"
+              className="flex-grow-0 flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 p-4"
               key={index}
             >
-              <TestimonialCard
-                quote={testimonial.quote}
-                author={testimonial.author}
-                location={testimonial.location}
-              />
+              <div className="bg-brand-green/20 p-2 rounded-2xl shadow-lg h-full">
+                <img
+                  src={imgSrc}
+                  alt={`Comentário de cliente ${index + 1}`}
+                  className="w-full h-full object-contain rounded-lg"
+                />
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Botões de Navegação */}
+      {/* Botões de Navegação (permanecem os mesmos) */}
       <div className="flex justify-center items-center mt-8 gap-4">
         <button
           onClick={scrollPrev}

@@ -58,14 +58,20 @@ function ReservationsPage() {
             </h2>
             <div className="space-y-4 text-secondary-text text-lg">
               <p>
-                Para proporcionar uma experiência mais **humanizada e pessoal**,
-                o pagamento da sua estadia é realizado diretamente na recepção
-                do camping no momento do seu check-in.
+                Para proporcionar uma experiência mais humanizada e pessoal, a
+                garantia da sua vaga é feita com um sinal de 50% após a
+                solicitação da reserva. Fique tranquilo, o processo é pensado
+                para sua total segurança: não é necessário adicionar nenhum
+                cartão de crédito em nosso site.
               </p>
               <p>
-                Você receberá todos os detalhes por e-mail, incluindo seu código
-                de reserva exclusivo. Nossos anfitriões, Bianca e Fernando,
-                estarão à sua espera para dar as boas-vindas.
+                O pagamento é feito via Pix e você receberá por e-mail todas as
+                instruções detalhadas, junto com seu código de reserva
+                exclusivo.
+              </p>
+              <p>
+                Nossos anfitriões, Bianca e Fernando, estarão à sua espera para
+                dar as boas-vindas.
               </p>
             </div>
           </motion.div>

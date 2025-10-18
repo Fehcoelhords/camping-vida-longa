@@ -2,9 +2,19 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
-    bookingCode: { type: String, required: true, unique: true },
-    name: { type: String, required: [true, "Por favor, adicione um nome"] },
-    email: { type: String, required: [true, "Por favor, adicione um e-mail"] },
+    bookingCode: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    name: {
+      type: String,
+      required: [true, "Por favor, adicione um nome"],
+    },
+    email: {
+      type: String,
+      required: [true, "Por favor, adicione um e-mail"],
+    },
     phone: {
       type: String,
       required: [true, "Por favor, adicione um telefone"],
@@ -28,6 +38,12 @@ const bookingSchema = new mongoose.Schema(
     totalPrice: {
       type: Number,
       required: [true, "Por favor, adicione o preço total"],
+    },
+    // --- NOVO CAMPO ADICIONADO ---
+    status: {
+      type: String,
+      enum: ["pending", "confirmed"], // A reserva só pode ter um desses dois status
+      default: "pending", // Por padrão, toda nova reserva começa como 'pendente'
     },
   },
   {

@@ -32,8 +32,7 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          Desconecte-se da rotina e reconecte-se com a natureza no melhor
-          acampamento do país.
+          Refúgio perfeito entre o verde da mata e o azul do mar.
         </motion.p>
       </div>
 

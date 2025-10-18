@@ -9,11 +9,10 @@ import ServiceCard from "../components/ServiceCard";
 import ServiceModal from "../components/ServiceModal";
 import TestimonialsCarousel from "../components/TestimonialsCarousel";
 
-// Imagens
+// Imagens dos Serviços (principais)
 import imgServicoCabanas from "../assets/services/servico-cabanas.jpg";
-// A imagem principal do 'servico-hospedagem' agora será a do hostel
 import imgServicoHostel from "../assets/service-details/hostel/entrada-do-hostel.jpg";
-import imgServicoRefeicoes from "../assets/services/servico-refeicoes.PNG";
+import imgServicoRefeicoes from "../assets/services/servico-refeicoes.png";
 import imgServicoPasseios from "../assets/services/servico-passeios.jpg";
 
 // Imagens de detalhe para os modais
@@ -21,17 +20,13 @@ import cabanaDetail1 from "../assets/services/cabanas/cabana-detalhe-1.jpg";
 import cabanaDetail2 from "../assets/services/cabanas/cabana-detalhe-2.jpg";
 import cabanaDetail3 from "../assets/services/cabanas/cabana-detalhe-3.jpg";
 import cabanaDetail4 from "../assets/services/cabanas/cabana-detalhe-4.jpg";
-
-// Imagens reais do hostel para o modal
 import hostelEntrada1 from "../assets/service-details/hostel/entrada-do-hostel.jpg";
 import hostelTodasAsCamas from "../assets/service-details/hostel/todas-as-camas.jpg";
 import hostelEspacoInterno from "../assets/service-details/hostel/espaço-interno-hostel.jpg";
 import hostelCamas1 from "../assets/service-details/hostel/camas-hostel1.jpg";
-
 import refeicoesDetail1 from "../assets/services/refeicoes/refeicao-detalhe-1.jpg";
 import refeicoesDetail2 from "../assets/services/refeicoes/refeicao-detalhe-2.jpg";
 import refeicoesDetail3 from "../assets/services/refeicoes/refeicao-detalhe-3.jpg";
-
 import passeiosDetail1 from "../assets/services/passeios/passeio-detalhe-1.jpg";
 import passeiosDetail2 from "../assets/services/passeios/passeio-detalhe-2.jpg";
 import passeiosDetail3 from "../assets/services/passeios/passeio-detalhe-3.jpg";
@@ -41,17 +36,16 @@ import passeiosDetail4 from "../assets/services/passeios/passeio-detalhe-4.jpg";
 const servicesData = [
   {
     id: "cabanas",
-    title: "Camping",
+    title: "Cabanas",
     mainImage: imgServicoCabanas,
     description:
       "Nossas cabanas de madeira oferecem o equilíbrio perfeito entre o charme rústico e o conforto moderno. Cada unidade conta com camas confortáveis, banheiro privativo com água quente, uma pequena cozinha e uma varanda com vista para a floresta. Ideal para casais ou famílias pequenas que buscam uma imersão na natureza sem abrir mão do aconchego.",
     images: [cabanaDetail1, cabanaDetail2, cabanaDetail3, cabanaDetail4],
   },
   {
-    // --- MUDANÇAS APLICADAS AQUI ---
     id: "hostel",
-    title: "Hostel", // Título atualizado
-    mainImage: imgServicoHostel, // Imagem principal atualizada
+    title: "Hostel",
+    mainImage: imgServicoHostel,
     description:
       "Para quem prefere a comodidade de uma estrutura central e a oportunidade de conhecer outros viajantes, nossos quartos no hostel principal são a escolha ideal. Com acesso fácil ao restaurante e áreas comuns, os quartos são espaçosos, bem decorados e garantem uma noite de sono tranquila após um dia de aventuras.",
     images: [
@@ -59,7 +53,7 @@ const servicesData = [
       hostelTodasAsCamas,
       hostelEspacoInterno,
       hostelCamas1,
-    ], // Imagens reais no lugar das laranjas
+    ],
   },
   {
     id: "refeicoes",

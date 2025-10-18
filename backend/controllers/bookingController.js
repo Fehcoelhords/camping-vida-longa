@@ -1,10 +1,15 @@
 const Booking = require("../models/BookingModel");
-const { createCalendarEvent } = require("./googleController");
-const { sendBookingConfirmationEmail } = require("../utils/emailService");
+// A função do Google Calendar foi removida daqui por enquanto
+// const { createCalendarEvent } = require('./googleController');
+
+// Importamos as duas novas funções de e-mail
+const {
+  sendPreBookingEmailToCustomer,
+  sendNewBookingNotificationToOwner,
+} = require("../utils/emailService");
 
 const createBooking = async (req, res) => {
   try {
-    // MUDANÇA: Agora extraímos também o bookingType e o totalPrice
     const {
       name,
       email,
@@ -16,7 +21,6 @@ const createBooking = async (req, res) => {
       totalPrice,
     } = req.body;
 
-    // MUDANÇA: Validação atualizada para incluir os novos campos
     if (
       !name ||
       !email ||
@@ -36,7 +40,7 @@ const createBooking = async (req, res) => {
       .substring(2, 10)
       .toUpperCase();
 
-    // MUDANÇA: Criamos a reserva no banco de dados com todos os novos campos
+    // A reserva é criada com o status padrão 'pending'
     const booking = await Booking.create({
       name,
       email,
@@ -50,10 +54,11 @@ const createBooking = async (req, res) => {
     });
 
     if (booking) {
-      // Nenhuma mudança aqui, pois as funções já recebem o objeto 'booking' completo
+      // --- LÓGICA ATUALIZADA ---
+      // Em vez de criar o evento na agenda, agora disparamos os e-mails de pré-reserva
       await Promise.all([
-        createCalendarEvent(booking),
-        sendBookingConfirmationEmail(booking),
+        sendPreBookingEmailToCustomer(booking),
+        sendNewBookingNotificationToOwner(booking),
       ]);
     }
 

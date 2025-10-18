@@ -21,6 +21,7 @@ function BookingModal({ show, onClose, bookingDetails }) {
   const [bookingType, setBookingType] = useState(pricingTiers[0].id);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOverCapacity, setIsOverCapacity] = useState(false);
 
   useEffect(() => {
     if (show && bookingDetails.startDate && bookingDetails.endDate) {
@@ -40,25 +41,35 @@ function BookingModal({ show, onClose, bookingDetails }) {
           calculatedPrice = nights * guests * selectedTier.price;
         }
         setTotalPrice(calculatedPrice);
+
+        if (selectedTier.maxGuests && guests > selectedTier.maxGuests) {
+          setIsOverCapacity(true);
+        } else {
+          setIsOverCapacity(false);
+        }
       } else {
         setTotalPrice(0);
+        setIsOverCapacity(false);
       }
     }
   }, [show, bookingDetails, bookingType]);
 
   const formatDate = (date) => new Date(date).toLocaleDateString("pt-BR");
 
-  // --- FUNÇÃO DE ENVIO FINAL E COMPLETA ---
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (isOverCapacity) {
+      toast.error(
+        "O tipo de estadia selecionado não suporta essa quantidade de hóspedes."
+      );
+      return;
+    }
     if (!name || !email || !phone) {
       toast.error("Por favor, preencha seus dados de contato.");
       return;
     }
 
     setIsSubmitting(true);
-
-    // Objeto final com TODOS os dados
     const finalBookingData = {
       ...bookingDetails,
       name,
@@ -69,15 +80,16 @@ function BookingModal({ show, onClose, bookingDetails }) {
     };
 
     try {
-      // Enviando os dados completos para a API
       const response = await axios.post(
         "http://localhost:5000/api/bookings",
         finalBookingData
       );
 
-      toast.success(`Reserva para ${name} confirmada com sucesso!`);
-      console.log("Resposta da API:", response.data);
+      toast.success(
+        "Pré-reserva realizada! Verifique seu e-mail para as instruções de pagamento."
+      );
 
+      console.log("Resposta da API:", response.data);
       onClose();
     } catch (error) {
       toast.error("Houve um erro ao processar sua reserva.");
@@ -177,6 +189,24 @@ function BookingModal({ show, onClose, bookingDetails }) {
               </div>
             </div>
 
+            <AnimatePresence>
+              {isOverCapacity && (
+                <motion.div
+                  className="bg-red-500/20 border border-red-500 text-red-300 text-sm p-4 rounded-lg my-6"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <p className="font-bold">Lotação excedida para o Hostel!</p>
+                  <p>
+                    A capacidade máxima para esta estadia é de 8 pessoas. Para
+                    grupos maiores, para uma melhor experiência, experimente
+                    nosso espaçoso espaço de Camping.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div className="flex flex-col">
@@ -189,7 +219,6 @@ function BookingModal({ show, onClose, bookingDetails }) {
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Seu nome completo"
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
                     />
@@ -205,7 +234,6 @@ function BookingModal({ show, onClose, bookingDetails }) {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="seu@email.com"
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
                     />
@@ -221,7 +249,6 @@ function BookingModal({ show, onClose, bookingDetails }) {
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="(11) 98765-4321"
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
                     />
