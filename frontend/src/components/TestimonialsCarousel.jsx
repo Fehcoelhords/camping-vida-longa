@@ -2,32 +2,30 @@ import React, { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-// --- 1. IMPORTANDO TODAS AS 22 IMAGENS ---
-// (Certifique-se que os nomes e extensões dos arquivos batem exatamente)
-import C1 from "../assets/testimonials/comentarios1.JPEG";
-import C2 from "../assets/testimonials/comentarios2.JPEG";
-import C3 from "../assets/testimonials/comentarios3.JPEG";
-import C4 from "../assets/testimonials/comentarios4.JPEG";
-import C5 from "../assets/testimonials/comentarios5.JPEG";
-import C6 from "../assets/testimonials/comentarios6.JPEG";
-import C7 from "../assets/testimonials/comentarios7.JPEG";
-import C8 from "../assets/testimonials/comentarios8.JPEG";
-import C9 from "../assets/testimonials/comentarios9.JPEG";
-import C10 from "../assets/testimonials/comentarios10.JPEG";
-import C11 from "../assets/testimonials/comentarios11.JPEG";
-import C12 from "../assets/testimonials/comentarios12.JPEG";
-import C13 from "../assets/testimonials/comentarios13.JPEG";
-import C14 from "../assets/testimonials/comentarios14.JPEG";
-import C15 from "../assets/testimonials/comentarios15.JPEG";
-import C16 from "../assets/testimonials/comentarios16.JPEG";
-import C17 from "../assets/testimonials/comentarios17.JPEG";
-import C18 from "../assets/testimonials/comentarios18.JPEG";
-import C19 from "../assets/testimonials/comentarios19.JPEG";
-import C20 from "../assets/testimonials/comentarios20.JPEG";
-import C21 from "../assets/testimonials/comentarios21.JPEG";
-import C22 from "../assets/testimonials/comentarios22.JPEG";
+// --- CORREÇÃO AQUI: Extensões trocadas para .jpeg minúsculo ---
+import C1 from "../assets/testimonials/comentarios1.jpeg";
+import C2 from "../assets/testimonials/comentarios2.jpeg";
+import C3 from "../assets/testimonials/comentarios3.jpeg";
+import C4 from "../assets/testimonials/comentarios4.jpeg";
+import C5 from "../assets/testimonials/comentarios5.jpeg";
+import C6 from "../assets/testimonials/comentarios6.jpeg";
+import C7 from "../assets/testimonials/comentarios7.jpeg";
+import C8 from "../assets/testimonials/comentarios8.jpeg";
+import C9 from "../assets/testimonials/comentarios9.jpeg";
+import C10 from "../assets/testimonials/comentarios10.jpeg";
+import C11 from "../assets/testimonials/comentarios11.jpeg";
+import C12 from "../assets/testimonials/comentarios12.jpeg";
+import C13 from "../assets/testimonials/comentarios13.jpeg";
+import C14 from "../assets/testimonials/comentarios14.jpeg";
+import C15 from "../assets/testimonials/comentarios15.jpeg";
+import C16 from "../assets/testimonials/comentarios16.jpeg";
+import C17 from "../assets/testimonials/comentarios17.jpeg";
+import C18 from "../assets/testimonials/comentarios18.jpeg";
+import C19 from "../assets/testimonials/comentarios19.jpeg";
+import C20 from "../assets/testimonials/comentarios20.jpeg";
+import C21 from "../assets/testimonials/comentarios21.jpeg";
+import C22 from "../assets/testimonials/comentarios22.jpeg";
 
-// --- 2. ARRAY APENAS COM AS IMAGENS ---
 const testimonialImages = [
   C1,
   C2,
@@ -67,11 +65,8 @@ function TestimonialsCarousel() {
   return (
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
-        {/* --- 3. NOVA ESTRUTURA DO SLIDE --- */}
-        {/* O map agora renderiza uma imagem em cada slide */}
         <div className="flex">
           {testimonialImages.map((imgSrc, index) => (
-            // Layout responsivo: 1 imagem em telas pequenas, 2 em médias, 3 em grandes
             <div
               className="flex-grow-0 flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 p-4"
               key={index}
@@ -88,7 +83,6 @@ function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* Botões de Navegação (permanecem os mesmos) */}
       <div className="flex justify-center items-center mt-8 gap-4">
         <button
           onClick={scrollPrev}
