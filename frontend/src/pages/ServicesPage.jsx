@@ -18,12 +18,12 @@ import passeiosDetail4 from "../assets/services/passeios/passeio-detalhe-4.jpg";
 import hostelEntrada1 from "../assets/service-details/hostel/entrada-do-hostel.jpg";
 import hostelTodasAsCamas from "../assets/service-details/hostel/todas-as-camas.jpg";
 import hostelEspacoInterno from "../assets/service-details/hostel/espaço-interno-hostel.jpg";
-import hostelFrente33 from "../assets/service-details/hostel/frente-hostel33.JPG";
-import hostelBanheiro from "../assets/service-details/hostel/hostel-banheiro.JPG";
-import hostelBanheiro12 from "../assets/service-details/hostel/hostel-banheiro12.JPG";
-import hostelPiaLado1 from "../assets/service-details/hostel/pia-lado1.JPG";
-import hostelPiaLado2 from "../assets/service-details/hostel/pia-lado2.JPG";
-import hostelAviso from "../assets/service-details/hostel/aviso.JPG";
+import hostelFrente33 from "../assets/service-details/hostel/frente-hostel33.jpg";
+import hostelBanheiro from "../assets/service-details/hostel/hostel-banheiro.jpg";
+import hostelBanheiro12 from "../assets/service-details/hostel/hostel-banheiro12.jpg";
+import hostelPiaLado1 from "../assets/service-details/hostel/pia-lado1.jpg";
+import hostelPiaLado2 from "../assets/service-details/hostel/pia-lado2.jpg";
+import hostelAviso from "../assets/service-details/hostel/aviso.jpg";
 import areaExterna2Img from "../assets/service-details/camping-tradicional/area-externa2.jpg";
 
 const servicesPageData = {
