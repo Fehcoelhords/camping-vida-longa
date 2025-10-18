@@ -219,6 +219,7 @@ function BookingModal({ show, onClose, bookingDetails }) {
                     <input
                       type="text"
                       value={name}
+                      placeholder="Seu nome completo"
                       onChange={(e) => setName(e.target.value)}
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
@@ -234,6 +235,7 @@ function BookingModal({ show, onClose, bookingDetails }) {
                     <input
                       type="email"
                       value={email}
+                      placeholder="seu@email.com"
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
@@ -249,6 +251,7 @@ function BookingModal({ show, onClose, bookingDetails }) {
                     <input
                       type="tel"
                       value={phone}
+                      placeholder="(11) 98765-4321"
                       onChange={(e) => setPhone(e.target.value)}
                       required
                       className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
