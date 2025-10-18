@@ -38,7 +38,7 @@ const servicesData = [
     title: "Camping",
     mainImage: imgServicoCabanas,
     // --- DESCRIÇÃO ATUALIZADA ---
-    description: `Conforto, Natureza e Conexão em um Só Lugar\n\nSe você busca um refúgio tranquilo para se desconectar da rotina e se reconectar com o que realmente importa, nossa área de camping em meio à floresta é o destino ideal.\n\n🌿 Um espaço pensado para famílias, casais e grupos de amigos que desejam curtir a natureza com conforto, segurança e praticidade.\n\n🌟 O que você encontra aqui:\n✔️ Espaço para sua barraca (ou alugue uma conosco!)\n✔️ Banheiros compartilhados sempre limpos\n✔️ Cozinha comunitária com utensílios, fogão e geladeira\n✔️ Ambiente seguro e acolhedor, rodeado por trilhas e sons da natureza\n✔️ Espaço para fogueira, descanso e convivência`,
+    description: `Conforto, Natureza e Conexão em um Só Lugar\n\nSe você busca um refúgio tranquilo para se desconectar da rotina e se reconectar com o que realmente importa, nossa área de camping em meio à floresta é o destino ideal.\n\n Um espaço pensado para famílias, casais e grupos de amigos que desejam curtir a natureza com conforto, segurança e praticidade.\n\n O que você encontra aqui:\n Espaço para sua barraca (ou alugue uma conosco!)\n Banheiros compartilhados sempre limpos\n Cozinha comunitária com utensílios, fogão e geladeira\n Ambiente seguro e acolhedor, rodeado por trilhas e sons da natureza\n Espaço para fogueira, descanso e convivência`,
     images: [cabanaDetail1, cabanaDetail2, cabanaDetail3, cabanaDetail4],
   },
   {
@@ -46,7 +46,7 @@ const servicesData = [
     title: "Hostel",
     mainImage: imgServicoHostel,
     // --- DESCRIÇÃO ATUALIZADA ---
-    description: `Seu Cantinho Aconchegante para Novas Experiências\n\nProcurando um lugar tranquilo, acolhedor e com aquele clima gostoso de casa compartilhada? Nosso hostel foi pensado para quem valoriza boas conversas, novas amizades e momentos leves.\n\n✨ Com capacidade para até 8 pessoas, oferecemos um ambiente descontraído, organizado e ideal para viajantes solo, grupos pequenos ou quem ama conhecer gente nova.\n\nAqui, você encontra mais do que uma cama confortável. Encontra histórias, conexões e amizades que podem durar uma vida inteira.\n\nSeja para um fim de semana, uma temporada mais longa ou uma parada estratégica em sua viagem, o nosso hostel é aquele tipo de lugar que faz você se sentir em casa — mesmo longe dela.`,
+    description: `Seu Cantinho Aconchegante para Novas Experiências\n\nProcurando um lugar tranquilo, acolhedor e com aquele clima gostoso de casa compartilhada? Nosso hostel foi pensado para quem valoriza boas conversas, novas amizades e momentos leves.\n\n Com capacidade para até 8 pessoas, oferecemos um ambiente descontraído, organizado e ideal para viajantes solo, grupos pequenos ou quem ama conhecer gente nova.\n\nAqui, você encontra mais do que uma cama confortável. Encontra histórias, conexões e amizades que podem durar uma vida inteira.\n\nSeja para um fim de semana, uma temporada mais longa ou uma parada estratégica em sua viagem, o nosso hostel é aquele tipo de lugar que faz você se sentir em casa — mesmo longe dela.`,
     images: [
       hostelEntrada1,
       hostelTodasAsCamas,
