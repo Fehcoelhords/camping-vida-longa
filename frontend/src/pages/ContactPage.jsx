@@ -38,7 +38,7 @@ function ContactPage() {
               </h3>
               <div className="w-full h-64 rounded-lg overflow-hidden mb-4">
                 <iframe
-                  src="http://googleusercontent.com/maps.google.com/5"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3681.777005479042!2d-44.2259648850388!3d-22.66170568513813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9c5db5a312457b%3A0x8091a422a55f7b0b!2sPraia%20Longa%2C%20Angra%20dos%20Reis%20-%20RJ!5e0!3m2!1spt-BR!2sbr!4v1679080000000!5m2!1spt-BR!2sbr"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

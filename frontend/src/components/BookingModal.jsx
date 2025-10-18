@@ -86,11 +86,47 @@ function BookingModal({ show, onClose, bookingDetails }) {
         finalBookingData
       );
 
-      toast.success(
-        "Pré-reserva realizada! Verifique seu e-mail para as instruções de pagamento."
+      console.log("Resposta da API:", response.data);
+
+      // Usando uma notificação 'toast' customizada que não some sozinha
+      toast.custom(
+        (t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-dark-bg shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-brand-green/50`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <span className="text-2xl text-brand-orange">✓</span>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-main-text">
+                    Pré-reserva realizada com sucesso!
+                  </p>
+                  <p className="mt-1 text-sm text-secondary-text">
+                    Enviamos as instruções para seu e-mail. Se não encontrar,
+                    verifique a pasta de Lixo Eletrônico (Spam).
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-brand-green/20">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-brand-orange hover:bg-brand-orange/10 focus:outline-none"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        ),
+        {
+          duration: Infinity, // Impede que a notificação desapareça sozinha
+        }
       );
 
-      console.log("Resposta da API:", response.data);
       onClose();
     } catch (error) {
       toast.error("Houve um erro ao processar sua reserva.");
