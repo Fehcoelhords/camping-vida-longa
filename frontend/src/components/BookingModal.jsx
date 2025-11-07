@@ -28,18 +28,15 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
   const [isInvalidCasalGuests, setIsInvalidCasalGuests] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStageIndex, setSubmitStageIndex] = useState(-1);
-  const [submitStageMessage, setSubmitStageMessage] = useState("");
+  const [buttonMessage, setButtonMessage] = useState("CONFIRMAR RESERVA");
   const timeoutsRef = useRef([]);
   const abortControllerRef = useRef(null);
 
-  const STAGES = [
-    "Carregando...",
-    "Verificando disponibilidade...",
-    "Gerando token de pagamento...",
-    "Enviando pré-reserva...",
+  const loadingStages = [
+    "🔄 Procurando vagas...",
+    "🏕️ Preparando sua reserva...",
+    "✅ Finalizando pré-reserva...",
   ];
-  const STAGE_STEP_MS = 900;
 
   const datesOverlap = (start1, end1, start2, end2) => {
     const s1 = new Date(start1);
@@ -126,8 +123,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       clearAllTimers();
       abortControllerRef.current?.abort?.();
       setIsSubmitting(false);
-      setSubmitStageIndex(-1);
-      setSubmitStageMessage("");
+      setButtonMessage("CONFIRMAR RESERVA");
     }
     return () => {
       clearAllTimers();
@@ -140,27 +136,19 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     timeoutsRef.current = [];
   }
 
-  function startStageProgress() {
+  function startLoadingMessages() {
     clearAllTimers();
-    setSubmitStageIndex(0);
-    setSubmitStageMessage(STAGES[0]);
-    for (let i = 1; i < STAGES.length; i++) {
-      const t = setTimeout(() => {
-        setSubmitStageIndex(i);
-        setSubmitStageMessage(STAGES[i]);
-      }, i * STAGE_STEP_MS);
+    setButtonMessage(loadingStages[0]);
+    loadingStages.forEach((msg, index) => {
+      const t = setTimeout(() => setButtonMessage(msg), index * 1800);
       timeoutsRef.current.push(t);
-    }
+    });
   }
 
-  function stopStageProgressAndFinish(finalMessage = "") {
+  function stopLoadingMessages(finalText) {
     clearAllTimers();
-    setSubmitStageIndex(STAGES.length - 1);
-    setSubmitStageMessage(finalMessage || "Concluído");
-    const t = setTimeout(() => {
-      setSubmitStageIndex(-1);
-      setSubmitStageMessage("");
-    }, 1400);
+    setButtonMessage(finalText);
+    const t = setTimeout(() => setButtonMessage("CONFIRMAR RESERVA"), 2500);
     timeoutsRef.current.push(t);
   }
 
@@ -194,7 +182,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     }
 
     setIsSubmitting(true);
-    startStageProgress();
+    startLoadingMessages();
 
     const payload = {
       ...bookingDetails,
@@ -212,15 +200,15 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
       await axios.post(`${apiUrl}/api/bookings`, payload, { signal });
 
-      stopStageProgressAndFinish("Pré-reserva enviada!");
+      stopLoadingMessages("✅ Pré-reserva enviada!");
       toast.success(
         "Pré-reserva realizada com sucesso! Verifique seu e-mail para instruções de pagamento."
       );
       onClose();
     } catch (err) {
       console.error("Erro ao criar reserva:", err);
+      stopLoadingMessages("❌ Erro ao confirmar");
       toast.error("Houve um erro ao processar sua reserva. Tente novamente.");
-      stopStageProgressAndFinish("Falha ao enviar");
     } finally {
       setIsSubmitting(false);
       abortControllerRef.current = null;
@@ -443,7 +431,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                   }
                   className="bg-brand-orange text-white font-bold font-heading py-3 px-6 rounded hover:bg-opacity-90 transition-all duration-300 w-full disabled:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Confirmando..." : "CONFIRMAR RESERVA"}
+                  {buttonMessage}
                 </button>
               </div>
             </form>
