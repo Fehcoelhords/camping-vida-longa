@@ -12,40 +12,35 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { differenceInDays, parseISO } from "date-fns";
-import { pricingTiers } from "../config"; // mantenha esse import apontando pro seu config
+import { pricingTiers } from "../config"; // mantém o caminho original
 
 export default function BookingModal({ show, onClose, bookingDetails }) {
-  // contato
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // reserva
   const [bookingType, setBookingType] = useState(
     pricingTiers && pricingTiers.length > 0 ? pricingTiers[0].id : null
   );
   const [totalPrice, setTotalPrice] = useState(0);
   const [isOverCapacity, setIsOverCapacity] = useState(false);
   const [isDateBlocked, setIsDateBlocked] = useState(false);
+  const [isInvalidCasalGuests, setIsInvalidCasalGuests] = useState(false);
 
-  // submit / UX stages
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStageIndex, setSubmitStageIndex] = useState(-1); // -1 = não iniciado
+  const [submitStageIndex, setSubmitStageIndex] = useState(-1);
   const [submitStageMessage, setSubmitStageMessage] = useState("");
-
   const timeoutsRef = useRef([]);
   const abortControllerRef = useRef(null);
 
-  // mensagens de estágio (você pode ajustar textos / tempos)
   const STAGES = [
     "Carregando...",
     "Verificando disponibilidade...",
     "Gerando token de pagamento...",
     "Enviando pré-reserva...",
   ];
-  const STAGE_STEP_MS = 900; // tempo entre estágios se a API demorar
+  const STAGE_STEP_MS = 900;
 
-  // helper: checa overlap de datas
   const datesOverlap = (start1, end1, start2, end2) => {
     const s1 = new Date(start1);
     const e1 = new Date(end1);
@@ -54,20 +49,20 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     return s1 <= e2 && e1 >= s2;
   };
 
-  // recalcula preço / validações sempre que variáveis mudarem
   useEffect(() => {
     if (!show || !bookingDetails) return;
 
     const start = bookingDetails.startDate;
     const end = bookingDetails.endDate;
+
     if (!start || !end) {
       setTotalPrice(0);
       setIsOverCapacity(false);
       setIsDateBlocked(false);
+      setIsInvalidCasalGuests(false);
       return;
     }
 
-    // calcula noites (differenceInDays espera Date ou ISO)
     let nights = differenceInDays(new Date(end), new Date(start));
     if (nights <= 0) nights = 1;
 
@@ -75,22 +70,27 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       bookingDetails.guests && bookingDetails.guests > 0
         ? bookingDetails.guests
         : 1;
+
     const selectedTier = pricingTiers.find((t) => t.id === bookingType);
 
     if (selectedTier) {
       let calculatedPrice = 0;
-      if (selectedTier.type === "fixed" || selectedTier.type === "fixo") {
-        // suporte tanto 'fixed' quanto 'fixo' caso seu config esteja em PT
-        calculatedPrice = nights * Number(selectedTier.price || 0);
-      } else if (
-        selectedTier.type === "per_person" ||
-        selectedTier.type === "por_pessoa"
-      ) {
-        calculatedPrice = nights * guests * Number(selectedTier.price || 0);
+      const pricePerPerson = Number(selectedTier.pricePerPerson || 0);
+
+      // 🏕️ Barraca casal: valida número par e calcula por pessoa
+      if (selectedTier.id === "propria_casal") {
+        if (guests % 2 !== 0) {
+          setIsInvalidCasalGuests(true);
+          calculatedPrice = 0;
+        } else {
+          setIsInvalidCasalGuests(false);
+          calculatedPrice = nights * guests * pricePerPerson;
+        }
       } else {
-        // fallback
-        calculatedPrice = nights * Number(selectedTier.price || 0);
+        setIsInvalidCasalGuests(false);
+        calculatedPrice = nights * guests * pricePerPerson;
       }
+
       setTotalPrice(calculatedPrice);
 
       // lotação
@@ -98,13 +98,12 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
         !!selectedTier.maxGuests && guests > selectedTier.maxGuests
       );
 
-      // blackout / blocked dates
+      // datas bloqueadas
       let blocked = false;
       if (Array.isArray(selectedTier.blackoutDates)) {
         const userStart = new Date(start);
         const userEnd = new Date(end);
         for (const blackout of selectedTier.blackoutDates) {
-          // espera { start: '2025-12-25', end: '2026-01-05' } (ISO strings)
           const blackoutStart = parseISO(blackout.start);
           const blackoutEnd = parseISO(blackout.end);
           if (datesOverlap(userStart, userEnd, blackoutStart, blackoutEnd)) {
@@ -118,10 +117,10 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       setTotalPrice(0);
       setIsOverCapacity(false);
       setIsDateBlocked(false);
+      setIsInvalidCasalGuests(false);
     }
   }, [show, bookingDetails, bookingType]);
 
-  // limpa timers/abortController quando fechar ou desmontar
   useEffect(() => {
     if (!show) {
       clearAllTimers();
@@ -134,7 +133,6 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       clearAllTimers();
       abortControllerRef.current?.abort?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
 
   function clearAllTimers() {
@@ -142,12 +140,10 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     timeoutsRef.current = [];
   }
 
-  // inicia animação de estágios (progride enquanto request não terminar)
   function startStageProgress() {
     clearAllTimers();
     setSubmitStageIndex(0);
     setSubmitStageMessage(STAGES[0]);
-
     for (let i = 1; i < STAGES.length; i++) {
       const t = setTimeout(() => {
         setSubmitStageIndex(i);
@@ -161,7 +157,6 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     clearAllTimers();
     setSubmitStageIndex(STAGES.length - 1);
     setSubmitStageMessage(finalMessage || "Concluído");
-    // limpa mensagem após um tempo
     const t = setTimeout(() => {
       setSubmitStageIndex(-1);
       setSubmitStageMessage("");
@@ -187,23 +182,20 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       );
       return;
     }
-    if (!name || !email || !phone) {
-      toast.error("Por favor, preencha seus dados de contato.");
+    if (isInvalidCasalGuests) {
+      toast.error(
+        "Este tipo de barraca é exclusivo para duplas 🌿 — selecione um número par de hóspedes (2, 4, 6...)."
+      );
       return;
     }
-    if (
-      !bookingDetails ||
-      !bookingDetails.startDate ||
-      !bookingDetails.endDate
-    ) {
-      toast.error("Datas de reserva inválidas.");
+    if (!name || !email || !phone) {
+      toast.error("Por favor, preencha seus dados de contato.");
       return;
     }
 
     setIsSubmitting(true);
     startStageProgress();
 
-    // prepara payload
     const payload = {
       ...bookingDetails,
       name,
@@ -213,42 +205,25 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       totalPrice,
     };
 
-    // cria AbortController para cancelar se necessário
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
 
     try {
-      // Simultaneamente teremos a progressão UI; se a API responder rápido, paramos a progressão
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const response = await axios.post(`${apiUrl}/api/bookings`, payload, {
-        signal,
-        // se sua versão do axios não suportar signal, use cancelToken (versões antigas)
-        // cancelToken: new axios.CancelToken((c) => { abortControllerRef.current.cancel = c; }),
-      });
+      await axios.post(`${apiUrl}/api/bookings`, payload, { signal });
 
-      // resposta OK — atualiza UI imediatamente
       stopStageProgressAndFinish("Pré-reserva enviada!");
       toast.success(
         "Pré-reserva realizada com sucesso! Verifique seu e-mail para instruções de pagamento."
       );
       onClose();
     } catch (err) {
-      if (axios.isCancel && axios.isCancel(err)) {
-        toast.error("Solicitação cancelada.");
-      } else if (err?.name === "CanceledError" || err?.message === "canceled") {
-        toast.error("Solicitação cancelada.");
-      } else {
-        console.error("Erro ao criar reserva:", err);
-        toast.error("Houve um erro ao processar sua reserva. Tente novamente.");
-      }
-      // mostra mensagem final de erro no estágio
+      console.error("Erro ao criar reserva:", err);
+      toast.error("Houve um erro ao processar sua reserva. Tente novamente.");
       stopStageProgressAndFinish("Falha ao enviar");
     } finally {
       setIsSubmitting(false);
-      // limpa controller
-      if (abortControllerRef.current) {
-        abortControllerRef.current = null;
-      }
+      abortControllerRef.current = null;
     }
   };
 
@@ -272,6 +247,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
             transition={{ type: "spring", stiffness: 120, damping: 16 }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Cabeçalho */}
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-heading text-brand-orange">
                 Finalize sua reserva
@@ -304,7 +280,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                 <span>
                   Valor Total:{" "}
                   <strong className="ml-2">
-                    R${" "}
+                    R$
                     {Number(totalPrice || 0)
                       .toFixed(2)
                       .replace(".", ",")}
@@ -313,7 +289,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
               </div>
             </div>
 
-            {/* seleção de tipo */}
+            {/* Escolha de estadia */}
             <div className="mb-6">
               <label className="text-main-text font-bold mb-3 text-base block">
                 Escolha o tipo de estadia
@@ -334,20 +310,35 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                       {tier.description}
                     </p>
                     <p className="font-bold text-brand-orange mt-1">
-                      {tier.type === "fixed" || tier.type === "fixo"
-                        ? `R$ ${Number(tier.price || 0)
-                            .toFixed(2)
-                            .replace(".", ",")} /dia`
-                        : `R$ ${Number(tier.price || 0)
-                            .toFixed(2)
-                            .replace(".", ",")} / pessoa por dia`}
+                      R$
+                      {Number(tier.pricePerPerson || 0)
+                        .toFixed(2)
+                        .replace(".", ",")}{" "}
+                      / pessoa por dia
                     </p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* warnings */}
+            {/* Avisos */}
+            <AnimatePresence>
+              {isInvalidCasalGuests && (
+                <motion.div
+                  className="bg-yellow-600/30 border border-yellow-400 text-yellow-200 text-sm p-4 rounded-lg my-4"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <p className="font-bold">Aviso 🌿</p>
+                  <p>
+                    Este tipo de barraca é exclusivo para duplas 🌿 — selecione
+                    um número par de hóspedes (2, 4, 6...).
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <AnimatePresence>
               {isOverCapacity && (
                 <motion.div
@@ -356,13 +347,12 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                 >
-                  <p className="font-bold">Lotação excedida para o Hostel!</p>
+                  <p className="font-bold">Lotação excedida!</p>
                   <p>
                     A capacidade máxima para esta estadia é de{" "}
                     {pricingTiers.find((t) => t.id === bookingType)
                       ?.maxGuests || "X"}{" "}
-                    pessoas. Para grupos maiores, experimente uma opção
-                    diferente.
+                    pessoas.
                   </p>
                 </motion.div>
               )}
@@ -371,23 +361,23 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
             <AnimatePresence>
               {isDateBlocked && (
                 <motion.div
-                  className="bg-red-500/20 border border-red-500 text-red-300 text-sm p-4 rounded-lg my-6"
+                  className="bg-yellow-500/20 border border-yellow-400 text-yellow-200 text-sm p-4 rounded-lg my-6"
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                 >
-                  <p className="font-bold">Datas indisponíveis!</p>
+                  <p className="font-bold">Período indisponível 🌿</p>
                   <p>
-                    O período selecionado está bloqueado para o tipo de estadia
-                    escolhido. Escolha outras datas ou um tipo diferente.
+                    Qualquer dúvida, entre em contato conosco pelo WhatsApp 💬
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* formulário */}
+            {/* Formulário */}
             <form onSubmit={handleSubmit}>
               <div className="space-y-4">
+                {/* Nome */}
                 <div className="flex flex-col">
                   <label className="text-secondary-text mb-1 text-sm">
                     Nome completo
@@ -405,6 +395,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                   </div>
                 </div>
 
+                {/* Email */}
                 <div className="flex flex-col">
                   <label className="text-secondary-text mb-1 text-sm">
                     E-mail
@@ -422,6 +413,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                   </div>
                 </div>
 
+                {/* Telefone */}
                 <div className="flex flex-col">
                   <label className="text-secondary-text mb-1 text-sm">
                     Telefone / WhatsApp
@@ -440,47 +432,15 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
                 </div>
               </div>
 
-              {/* UX staged progress (visível quando isSubmitting) */}
-              <div className="mt-6">
-                <AnimatePresence>
-                  {isSubmitting && submitStageIndex >= 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      className="mb-4"
-                    >
-                      <div className="text-sm text-secondary-text mb-2">
-                        Status
-                      </div>
-                      <div className="w-full bg-gray-700 rounded overflow-hidden h-9 flex items-center px-3">
-                        <div className="flex-1">
-                          <div className="text-xs uppercase text-secondary-text/70">
-                            {submitStageMessage}
-                          </div>
-                          <div className="w-full bg-gray-800 h-2 rounded mt-2 overflow-hidden">
-                            <motion.div
-                              className="h-2"
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${
-                                  ((submitStageIndex + 1) / STAGES.length) * 100
-                                }%`,
-                              }}
-                              transition={{ duration: 0.6 }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
               <div className="mt-8">
                 <button
                   type="submit"
-                  disabled={isSubmitting || isOverCapacity || isDateBlocked}
+                  disabled={
+                    isSubmitting ||
+                    isOverCapacity ||
+                    isDateBlocked ||
+                    isInvalidCasalGuests
+                  }
                   className="bg-brand-orange text-white font-bold font-heading py-3 px-6 rounded hover:bg-opacity-90 transition-all duration-300 w-full disabled:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Confirmando..." : "CONFIRMAR RESERVA"}
