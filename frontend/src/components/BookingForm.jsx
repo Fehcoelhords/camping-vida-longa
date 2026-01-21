@@ -26,14 +26,17 @@ function BookingForm() {
   return (
     <>
       <form
-        className="bg-dark-bg bg-opacity-80 p-6 rounded-lg shadow-2xl w-full max-w-4xl mx-auto"
+        className="bg-dark-bg/95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative"
         onSubmit={handleOpenModal}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-          <div className="flex flex-col">
-            <label className="text-secondary-text mb-1 text-sm">Chegada</label>
-            <div className="relative">
-              <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-secondary-text" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+          {/* Campo Chegada */}
+          <div className="flex flex-col group">
+            <label className="text-secondary-text mb-2 text-xs font-bold uppercase tracking-widest pl-1">
+              Chegada
+            </label>
+            <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
+              <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
               <DatePicker
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
@@ -41,17 +44,20 @@ function BookingForm() {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={new Date()}
-                className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
+                className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 required
               />
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <label className="text-secondary-text mb-1 text-sm">Partida</label>
-            <div className="relative">
-              <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-secondary-text" />
+          {/* Campo Partida */}
+          <div className="flex flex-col group">
+            <label className="text-secondary-text mb-2 text-xs font-bold uppercase tracking-widest pl-1">
+              Partida
+            </label>
+            <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
+              <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
               <DatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -59,7 +65,7 @@ function BookingForm() {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={startDate}
-                className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
+                className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Selecione a data"
                 required
@@ -67,27 +73,31 @@ function BookingForm() {
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <label className="text-secondary-text mb-1 text-sm">Hóspedes</label>
-            <div className="relative">
-              <FaUserFriends className="absolute top-1/2 left-3 -translate-y-1/2 text-secondary-text" />
+          {/* Campo Hóspedes */}
+          <div className="flex flex-col group">
+            <label className="text-secondary-text mb-2 text-xs font-bold uppercase tracking-widest pl-1">
+              Hóspedes
+            </label>
+            <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
+              <FaUserFriends className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg" />
               <input
                 type="number"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
                 min="1"
                 required
-                className="w-full bg-transparent pl-10 pr-4 py-2 text-main-text border border-brand-green rounded focus:outline-none focus:ring-2 focus:ring-brand-orange"
+                className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange font-medium"
               />
             </div>
           </div>
 
-          <div className="flex flex-col">
+          {/* Botão Reservar */}
+          <div className="flex flex-col h-full justify-end">
             <button
               type="submit"
-              className="bg-brand-orange text-white font-bold font-heading py-2 px-6 rounded hover:bg-opacity-90 transition-all duration-300 w-full h-full"
+              className="w-full bg-brand-orange hover:bg-orange-600 text-white font-heading font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-orange-500/20 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-300 uppercase tracking-wide text-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1"
             >
-              RESERVAR
+              Reservar
             </button>
           </div>
         </div>

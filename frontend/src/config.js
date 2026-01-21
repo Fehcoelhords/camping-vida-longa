@@ -7,7 +7,10 @@ export const pricingTiers = [
     name: "Barraca Própria (Individual)",
     description: "Para 1 pessoa trazendo seu próprio equipamento.",
     pricePerPerson: 40,
-    blackoutDates: [{ start: "2025-12-28", end: "2026-01-03" }],
+    blackoutDates: [
+      { start: "2025-12-28", end: "2026-01-03" },
+      { start: "2026-02-13", end: "2026-02-18" },
+    ],
   },
   {
     id: "propria_casal",
@@ -15,14 +18,20 @@ export const pricingTiers = [
     description:
       "Para 2 pessoas trazendo seu próprio equipamento (apenas números pares de hóspedes).",
     pricePerPerson: 35, // 💰 valor atualizado — R$ 35 por pessoa/dia
-    blackoutDates: [{ start: "2025-12-28", end: "2026-01-03" }],
+    blackoutDates: [
+      { start: "2025-12-28", end: "2026-01-03" },
+      { start: "2026-02-13", end: "2026-02-18" },
+    ],
   },
   {
     id: "alugada",
     name: "Barraca Alugada pelo Camping",
     description: "Nós fornecemos a barraca. O valor é por pessoa.",
     pricePerPerson: 50,
-    blackoutDates: [{ start: "2025-12-28", end: "2026-01-03" }],
+    blackoutDates: [
+      { start: "2025-12-28", end: "2026-01-03" },
+      { start: "2026-02-13", end: "2026-02-18" },
+    ],
   },
   {
     id: "hostel",
@@ -31,7 +40,10 @@ export const pricingTiers = [
       "Hospedagem em nosso alojamento compartilhado, com mais conforto e interação.",
     pricePerPerson: 80,
     maxGuests: 8,
-    blackoutDates: [{ start: "2025-12-25", end: "2026-01-05" }],
+    blackoutDates: [
+      { start: "2025-12-25", end: "2026-01-05" },
+      { start: "2026-02-13", end: "2026-02-18" },
+    ],
   },
 ];
 
