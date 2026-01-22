@@ -13,6 +13,16 @@ function BookingForm() {
   ); // Adicionando um valor padrão para endDate
   const [guests, setGuests] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleOpenModal = (event) => {
     event.preventDefault();
@@ -47,6 +57,8 @@ function BookingForm() {
                 className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 required
+                withPortal={isMobile}
+                onFocus={(e) => e.target.blur()}
               />
             </div>
           </div>
@@ -69,6 +81,8 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Selecione a data"
                 required
+                withPortal={isMobile}
+                onFocus={(e) => e.target.blur()}
               />
             </div>
           </div>
