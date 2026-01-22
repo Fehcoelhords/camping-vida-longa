@@ -14,6 +14,7 @@ function BookingForm() {
   const [guests, setGuests] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -59,6 +60,8 @@ function BookingForm() {
                 required
                 withPortal={isMobile}
                 onFocus={(e) => isMobile && e.target.blur()}
+                onCalendarOpen={() => isMobile && setIsDatePickerOpen(true)}
+                onCalendarClose={() => setIsDatePickerOpen(false)}
                 inputMode={isMobile ? "none" : undefined} // Evita que o teclado apareça em alguns browsers mobile
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()} // Impede digitação manual
@@ -86,6 +89,8 @@ function BookingForm() {
                 required
                 withPortal={isMobile}
                 onFocus={(e) => isMobile && e.target.blur()}
+                onCalendarOpen={() => isMobile && setIsDatePickerOpen(true)}
+                onCalendarClose={() => setIsDatePickerOpen(false)}
                 inputMode={isMobile ? "none" : undefined}
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()}
@@ -112,7 +117,13 @@ function BookingForm() {
           </div>
 
           {/* Botão Reservar */}
-          <div className="flex flex-col h-full justify-end">
+          <div
+            className={`flex flex-col h-full justify-end transition-opacity duration-300 ${
+              isMobile && isDatePickerOpen
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100"
+            }`}
+          >
             <button
               type="submit"
               className="w-full bg-brand-orange hover:bg-orange-600 text-white font-heading font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-orange-500/20 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-300 uppercase tracking-wide text-lg border-b-4 border-orange-700 active:border-b-0 active:mt-1"
