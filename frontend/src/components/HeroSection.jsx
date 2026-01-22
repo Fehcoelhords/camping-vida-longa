@@ -8,13 +8,18 @@ function HeroSection() {
     <section
       // Mudamos o flex para posicionar o conteúdo no centro E o formulário embaixo
       className="relative h-screen flex flex-col justify-center items-center text-center text-white"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+      {/* Imagem de Fundo Otimizada */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={backgroundImage}
+          alt="Camping Vida Longa Background"
+          className="w-full h-full object-cover"
+          // @ts-ignore
+          fetchPriority="high" // Prioridade alta para LCP
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
 
       {/* Conteúdo Centralizado */}
       <div className="relative z-10 p-5 flex-grow flex flex-col justify-center items-center">

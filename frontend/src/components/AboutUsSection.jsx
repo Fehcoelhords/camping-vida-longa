@@ -32,81 +32,107 @@ function AboutUsSection() {
   return (
     <section
       ref={sectionRef}
-      // --- CORREÇÃO AQUI ---
-      // Removido h-screen e min-h fixos para permitir que o conteúdo dite a altura.
-      // Adicionado py-20 para padding vertical.
-      className="relative overflow-hidden py-20"
+      className="relative overflow-hidden py-24 md:py-32"
     >
+      {/* Background Parallax */}
       <motion.div
         className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${aboutBg})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          y: y,
-        }}
-      />
-      <div className="absolute inset-0 z-10 bg-black/70"></div>
+        style={{ y: y }}
+      >
+        <img
+          src={aboutBg}
+          alt="Background Natureza"
+          loading="lazy"
+          className="w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/90 via-dark-bg/70 to-dark-bg/95"></div>
+      </motion.div>
 
-      <div className="relative z-20 h-full flex flex-col justify-center items-center text-white p-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center">
-            <motion.div
-              className="md:col-span-1 flex justify-center"
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-            >
-              <img
-                src={foundersBg}
-                alt="Fundadores Bianca e Fernando"
-                className="w-48 h-48 md:w-64 md:h-64 rounded-full object-cover shadow-2xl border-4 border-brand-orange/50"
-              />
-            </motion.div>
+      <div className="relative z-20 container mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Coluna da Imagem */}
+          <motion.div
+            className="relative group perspective-1000"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Elemento Decorativo de Fundo */}
+            <div className="absolute -inset-4 bg-brand-orange/20 rounded-2xl transform rotate-3 scale-105 blur-lg transition-all duration-500 group-hover:rotate-6 group-hover:bg-brand-orange/30"></div>
+            
+            {/* Foto Principal estilo "Polaroid Moderno" */}
+            <div className="relative bg-white/5 p-2 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-sm">
+              <div className="overflow-hidden rounded-xl aspect-[4/5] md:aspect-square lg:aspect-[4/5]">
+                <img
+                  src={foundersBg}
+                  alt="Fundadores do Camping"
+                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div className="absolute bottom-6 left-6 right-6 p-4 bg-black/60 backdrop-blur-md rounded-xl text-center border border-white/10">
+                <span className="block font-heading text-xl md:text-2xl text-white font-bold tracking-wide">
+                  Bianca & Fernando
+                </span>
+                <span className="block font-sans text-brand-orange text-sm uppercase tracking-widest mt-1">
+                  Fundadores & Anfitriões
+                </span>
+              </div>
+            </div>
+          </motion.div>
 
-            <div className="md:col-span-2 text-center md:text-left">
-              <motion.div
-                className="bg-dark-bg/80 backdrop-blur-md p-8 rounded-xl"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8 }}
-              >
-                <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-6 text-brand-orange">
-                  Sobre Nós
+          {/* Coluna do Texto */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="relative">
+              {/* Título com Destaque */}
+              <div className="mb-8 border-l-4 border-brand-orange pl-6">
+                <span className="block text-brand-orange font-sans font-bold uppercase tracking-widest text-sm mb-2">
+                  Nossa História
+                </span>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white leading-tight">
+                  <span className="text-white/40 block text-2xl md:text-3xl mb-1 font-semibold">Do amor pela natureza,</span>
+                  Nasceu o nosso refúgio.
                 </h2>
+              </div>
 
-                <motion.p
-                  className="font-sans text-main-text leading-relaxed text-lg mb-6"
-                  variants={containerVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                >
-                  {storyText.split(" ").map((word, index) => (
-                    <motion.span
-                      key={index}
-                      variants={wordVariants}
-                      className="inline-block mr-[4px]"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </motion.p>
+              {/* Texto com Glassmorphism e Ícone */}
+              <div className="bg-brand-green/10 border border-brand-green/20 backdrop-blur-md rounded-2xl p-8 relative overflow-hidden group">
+                {/* Efeito Glow no Hover */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 transition-all duration-500 group-hover:bg-brand-orange/20"></div>
 
-                <motion.p
-                  className="font-heading text-xl font-semibold text-brand-orange"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.7, delay: 2.5 }}
-                >
-                  Camping Vida Longa: o lugar para se reconectar de verdade.
-                </motion.p>
+                <div className="relative z-10 space-y-6 text-lg text-main-text/90 font-sans leading-relaxed">
+                  <p>
+                    Somos um casal apaixonado por Ilha Grande e por tudo que ela representa. O <strong className="text-brand-orange">Camping Vida Longa</strong> é a materialização do nosso sonho de compartilhar esse pedaço de paraíso com o mundo.
+                  </p>
+                  <p>
+                    Nossa filosofia é simples: <em className="text-white">respeito máximo à natureza</em> e acolhimento genuíno. Queremos que você não apenas visite, mas que se sinta parte deste ecossistema vibrante.
+                  </p>
+                  <p>
+                    Oferecemos suporte completo de locomoção e dicas exclusivas de quem vive aqui, para você curtir desde as cachoeiras escondidas até as noites estreladas ao redor da fogueira, com todo o conforto e segurança.
+                  </p>
+                </div>
+              </div>
+
+              {/* Frase de Efeito Final */}
+              <motion.div 
+                className="mt-8 flex items-center md:justify-end gap-3 text-brand-orange/80"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6 }}
+              >
+                <div className="h-px bg-brand-orange/50 w-12 md:w-24"></div>
+                <span className="font-heading font-semibold text-lg italic">
+                  Para viver o extraordinário.
+                </span>
               </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

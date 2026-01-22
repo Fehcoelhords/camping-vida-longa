@@ -1,13 +1,20 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
 
-// 1. Importe os novos componentes de página
-import ReservationsPage from "./pages/ReservationsPage";
-import ServicesPage from "./pages/ServicesPage";
-import ContactPage from "./pages/ContactPage";
+// Carregamento preguiçoso (Lazy Loading) das páginas para otimizar desempenho
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ReservationsPage = lazy(() => import("./pages/ReservationsPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+
+// Componente simples de Loading durante a transição de páginas
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center h-screen bg-dark-bg">
+    <div className="w-16 h-16 border-4 border-brand-green border-t-brand-orange rounded-full animate-spin"></div>
+  </div>
+);
 
 function App() {
   return (
@@ -25,16 +32,16 @@ function App() {
         }}
       />
 
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-
-          {/* 2. Adicione as rotas para as novas páginas aqui */}
-          <Route path="reservas" element={<ReservationsPage />} />
-          <Route path="servicos" element={<ServicesPage />} />
-          <Route path="contato" element={<ContactPage />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="reservas" element={<ReservationsPage />} />
+            <Route path="servicos" element={<ServicesPage />} />
+            <Route path="contato" element={<ContactPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </>
   );
 }
