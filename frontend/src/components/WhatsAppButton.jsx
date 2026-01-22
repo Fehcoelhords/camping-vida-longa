@@ -18,15 +18,37 @@ function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg z-30 flex items-center justify-center"
+      className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg z-50 flex items-center justify-center border-2 border-white/20"
       aria-label="Fale conosco no WhatsApp"
       initial={{ scale: 0, y: 100 }}
-      animate={{ scale: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 120, damping: 15, delay: 1 }}
-      whileHover={{ scale: 1.1 }}
+      animate={{ 
+        scale: [1, 1.1, 1],
+        y: 0,
+        boxShadow: [
+          "0 0 0 0 rgba(34, 197, 94, 0.7)",
+          "0 0 0 20px rgba(34, 197, 94, 0)",
+          "0 0 0 0 rgba(34, 197, 94, 0)"
+        ]
+      }}
+      transition={{ 
+        y: { type: "spring", stiffness: 120, damping: 15, delay: 1 }, // Entrance
+        default: {
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "easeInOut"
+        },
+        scale: {
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "easeInOut"
+        }
+      }}
+      whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
       whileTap={{ scale: 0.9 }}
     >
-      <FaWhatsapp className="text-3xl" />
+      <FaWhatsapp className="text-4xl" />
     </motion.a>
   );
 }
