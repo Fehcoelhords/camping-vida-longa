@@ -35,3 +35,36 @@
 .react-datepicker__navigation-icon::before {
   border-color: #eaeaea !important;
 }
+
+/* Estilos para o Modal (Portal) no Mobile */
+.react-datepicker__portal {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px);
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.react-datepicker__portal .react-datepicker {
+  border: 2px solid #ff7a00 !important; /* Borda laranja para destaque no mobile */
+  transform: scale(1.1); /* Um pouco maior no mobile para facilitar o toque */
+}
+
+.react-datepicker__portal .react-datepicker__header {
+  padding-top: 1rem !important;
+}
+
+.react-datepicker__day {
+  width: 2.5rem !important;
+  line-height: 2.5rem !important;
+  margin: 0.2rem !important;
+  font-size: 1rem !important;
+}
+
+.react-datepicker__day-name {
+  width: 2.5rem !important;
+  line-height: 2rem !important;
+  margin: 0.2rem !important;
+}
+
