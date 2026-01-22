@@ -58,7 +58,10 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 required
                 withPortal={isMobile}
-                onFocus={(e) => e.target.blur()}
+                onFocus={(e) => isMobile && e.target.blur()}
+                inputMode={isMobile ? "none" : undefined} // Evita que o teclado apareça em alguns browsers mobile
+                autoComplete="off"
+                onKeyDown={(e) => e.preventDefault()} // Impede digitação manual
               />
             </div>
           </div>
@@ -82,7 +85,10 @@ function BookingForm() {
                 placeholderText="Selecione a data"
                 required
                 withPortal={isMobile}
-                onFocus={(e) => e.target.blur()}
+                onFocus={(e) => isMobile && e.target.blur()}
+                inputMode={isMobile ? "none" : undefined}
+                autoComplete="off"
+                onKeyDown={(e) => e.preventDefault()}
               />
             </div>
           </div>
