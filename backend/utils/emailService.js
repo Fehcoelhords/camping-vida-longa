@@ -144,18 +144,14 @@ const sendNewBookingNotificationToOwner = async (booking) => {
 
 const sendFeedbackEmail = async (rating, feedback) => {
   try {
-    const ownerEmail = process.env.OWNER_EMAIL;
-    if (!ownerEmail) {
-      console.error("OWNER_EMAIL não definido no .env");
-      return;
-    }
+    const recipients = ['campingvidalonga@gmail.com', 'fecoelho0077@gmail.com'];
     const fromAddress = "sistema@campingvidalonga.com.br";
 
-    console.log(`Enviando feedback para ${ownerEmail}...`);
+    console.log(`Enviando feedback para ${recipients.join(', ')}...`);
 
     await resend.emails.send({
       from: `Sistema de Feedback <${fromAddress}>`,
-      to: [ownerEmail],
+      to: recipients,
       subject: `Novo Feedback Recebido! - ${rating} Estrelas`,
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px;">
