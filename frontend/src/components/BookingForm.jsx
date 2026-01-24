@@ -47,19 +47,39 @@ function BookingForm() {
             </label>
             <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
               <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                minDate={new Date()}
-                className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
-                dateFormat="dd/MM/yyyy"
-                required
-                withPortal={isMobile}
-                readOnly={isMobile}
-              />
+              {isMobile ? (
+                 <input
+                  type="date"
+                  required
+                  min={new Date().toISOString().split("T")[0]}
+                  value={startDate ? startDate.toISOString().split("T")[0] : ""}
+                  onChange={(e) => {
+                    const date = e.target.value ? new Date(e.target.value) : null;
+                    // Reset time to avoid timezone issues affecting the date
+                    if(date) {
+                         const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                         const adjustedDate = new Date(date.getTime() + userTimezoneOffset);
+                         setStartDate(adjustedDate);
+                    } else {
+                        setStartDate(null);
+                    }
+                  }}
+                  className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange font-medium cursor-pointer appearance-none"
+                  style={{ colorScheme: "dark" }} 
+                 />
+              ) : (
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={new Date()}
+                  className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
+                  dateFormat="dd/MM/yyyy"
+                  required
+                />
+              )}
             </div>
           </div>
 
@@ -70,20 +90,39 @@ function BookingForm() {
             </label>
             <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
               <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
-              <DatePicker
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Selecione a data"
-                required
-                withPortal={isMobile}
-                readOnly={isMobile}
-              />
+              {isMobile ? (
+                  <input
+                  type="date"
+                  required
+                  min={startDate ? startDate.toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
+                  value={endDate ? endDate.toISOString().split("T")[0] : ""}
+                   onChange={(e) => {
+                    const date = e.target.value ? new Date(e.target.value) : null;
+                     if(date) {
+                         const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+                         const adjustedDate = new Date(date.getTime() + userTimezoneOffset);
+                         setEndDate(adjustedDate);
+                    } else {
+                        setEndDate(null);
+                    }
+                  }}
+                  className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange font-medium cursor-pointer appearance-none"
+                  style={{ colorScheme: "dark" }}
+                 />
+              ) : (
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  selectsEnd
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={startDate}
+                  className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Selecione a data"
+                  required
+                />
+              )}
             </div>
           </div>
 
