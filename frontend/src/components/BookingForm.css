@@ -128,102 +128,52 @@
 }
 
 /* =========================================
-   MOBILE PORTAL (FULLSCREEN OVERLAY)
-   ========================================= */
-.react-datepicker__portal {
-  background-color: rgba(0, 0, 0, 0.9) !important; /* Mais escuro */
-  backdrop-filter: blur(8px);
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2147483647 !important; /* INT_MAX para evitar qualquer overlap */
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 20px !important;
-}
-
-/* Container do Datepicker Centralizado */
-.react-datepicker__portal .react-datepicker {
-  margin: auto !important; /* Centraliza vertical e horizontalmente */
-  width: 100% !important;
-  max-width: 350px !important; /* Pouco menor para garantir que caiba */
-  font-size: 1rem !important;
-  
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
-  
-  /* Reset de transformações e posições */
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  transform: none !important; 
-  display: block !important;
-}
-
-/* Ajuste nos dias para telas de celular */
-.react-datepicker__portal .react-datepicker__day {
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  line-height: 2.5rem !important;
-  font-size: 1.1rem !important;
-}
-
-.react-datepicker__portal .react-datepicker__day-name {
-  width: 2.5rem !important;
-  font-size: 0.9rem !important;
-}
-
-/* =========================================
-   MEDIA QUERIES PARA DISPOSITIVOS ESPECÍFICOS
+   MOBILE MANUAL FIX (No Portal)
    ========================================= */
 
-/* Telas Muito Pequenas (iPhone SE antigo, Galaxy Fold fechado) - Largura < 360px */
-@media (max-width: 360px) {
-  .react-datepicker__portal .react-datepicker__day {
-    width: 2rem !important;
-    height: 2rem !important;
-    line-height: 2rem !important;
-    font-size: 1rem !important;
-  }
-  
-  .react-datepicker__portal .react-datepicker__day-name {
-    width: 2rem !important;
-    font-size: 0.8rem !important;
-  }
-  
-  .react-datepicker__current-month {
-    font-size: 1rem !important;
-  }
-}
-
-/* Modo Paisagem em Celulares (Altura pequena) */
-@media (max-height: 600px) and (orientation: landscape) {
-  .react-datepicker__portal {
-    align-items: flex-start !important; /* Permite scroll se necessário */
-    overflow-y: auto !important;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-  
-  .react-datepicker__portal .react-datepicker {
-    margin: auto !important; /* Centraliza no scroll */
-    max-width: 450px !important; /* Mais largo no landscape */
+@media (max-width: 768px) {
+  /* Force fixed positioning to simulate a modal */
+  .react-datepicker-popper {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90% !important;
+    max-width: 350px !important;
+    z-index: 2147483647 !important; /* Above everything */
     display: flex !important;
-    flex-direction: row !important; /* Tenta lado a lado se suportado ou mantém bloco */
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
-  
-  /* Ajuste para caber na vertical */
-  .react-datepicker__header {
-    padding-top: 0.5rem !important;
+
+  /* Backdrop Overlay using pseudo-element */
+  .react-datepicker-popper::before {
+    content: '';
+    position: fixed;
+    top: -100vh;
+    left: -100vw;
+    width: 300vw;
+    height: 300vh;
+    background-color: rgba(0, 0, 0, 0.85); /* Dark dim */
+    backdrop-filter: blur(4px);
+    z-index: -1; /* Behind the calendar */
+    pointer-events: all; /* Blocks clicks on background */
   }
-  .react-datepicker__current-month {
-    margin-bottom: 0.2rem !important;
+
+  /* Calendar styling tweaks for mobile */
+  .react-datepicker {
+    width: 100% !important;
+    font-size: 1rem !important;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important;
+    border: 1px solid rgba(255,122,0,0.3) !important; /* Touch of orange */
   }
-  .react-datepicker__month-container {
-    float: none !important;
+
+  .react-datepicker__day {
+    width: 2.3rem !important;
+    height: 2.3rem !important;
+    line-height: 2.3rem !important;
+    margin: 0.15rem !important;
   }
 }
 
@@ -232,9 +182,9 @@
   display: none !important;
 }
 
-/* Ensure no other element overrides portal z-index */
-button, input, select, div {
-  z-index: auto; /* This checks for inline styles or other overrides, but might be too broad. Let's start with just the triangle fix and the portal fix I already did. */
+/* Ensure other elements don't randomly have high z-index on mobile */
+.group {
+  z-index: auto !important;
 }
 
 

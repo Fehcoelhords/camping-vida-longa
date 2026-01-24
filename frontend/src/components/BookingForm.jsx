@@ -57,7 +57,6 @@ function BookingForm() {
                 className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 required
-                withPortal={isMobile}
                 inputMode="none"
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()}
@@ -83,7 +82,6 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Selecione a data"
                 required
-                withPortal={isMobile}
                 inputMode="none"
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()}
