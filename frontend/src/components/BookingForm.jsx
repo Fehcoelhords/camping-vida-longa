@@ -45,9 +45,7 @@ function BookingForm() {
   return (
     <>
       <form
-        className={`bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative transition-opacity duration-300 ${
-          isMobile && isAnyCalendarOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        className="bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative"
         onSubmit={handleOpenModal}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 items-end">
