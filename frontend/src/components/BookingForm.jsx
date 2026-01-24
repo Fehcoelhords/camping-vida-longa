@@ -36,10 +36,10 @@ function BookingForm() {
   return (
     <>
       <form
-        className="bg-dark-bg/95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative"
+        className="bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative"
         onSubmit={handleOpenModal}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 items-end">
           {/* Campo Chegada */}
           <div className="flex flex-col group">
             <label className="text-secondary-text mb-2 text-xs font-bold uppercase tracking-widest pl-1">
@@ -58,9 +58,9 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 required
                 withPortal={isMobile}
-                onFocus={(e) => e.target.blur()} // Garante que não abra teclado
-                readOnly={isMobile} // Impede digitação no mobile
                 inputMode="none"
+                autoComplete="off"
+                onKeyDown={(e) => e.preventDefault()}
               />
             </div>
           </div>
@@ -84,9 +84,9 @@ function BookingForm() {
                 placeholderText="Selecione a data"
                 required
                 withPortal={isMobile}
-                onFocus={(e) => e.target.blur()}
-                readOnly={isMobile}
                 inputMode="none"
+                autoComplete="off"
+                onKeyDown={(e) => e.preventDefault()}
               />
             </div>
           </div>

@@ -1,5 +1,5 @@
 /* =========================================
-   PREMIUM DATEPICKER THEME
+   PREMIUM DATEPICKER THEME - RESPONSIVE
    ========================================= */
 
 /* --- Variáveis de Cores (baseadas no tema) --- */
@@ -23,6 +23,7 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
   color: var(--dp-text-color) !important;
   overflow: hidden;
+  font-size: 0.9rem !important;
 }
 
 /* --- Cabeçalho (Mês/Ano) --- */
@@ -134,30 +135,90 @@
   backdrop-filter: blur(8px); /* Efeito Glass */
   z-index: 9999 !important; /* Acima de tudo */
   transition: opacity 0.3s ease;
+  padding: 1rem; /* Margem segura das bordas */
 }
 
-/* Centralização perfeita no mobile */
+/* Container do Datepicker Centralizado */
 .react-datepicker__portal .react-datepicker {
+  /* Tamanho Fluido mas controlado */
+  width: 100% !important;
+  max-width: 380px !important; /* Não fica gigante em tablets */
   font-size: 1rem !important;
+  
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8) !important;
-  transform: scale(1.1); /* Um pouco maior no mobile */
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important;
+  
+  /* Reset de transformações perigosas */
+  transform: none !important; 
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-/* Ajustes finos para telas muito pequenas */
-@media (max-width: 400px) {
-  .react-datepicker__portal .react-datepicker {
-    transform: scale(1);
-    width: 90vw !important;
-  }
-  .react-datepicker__day {
+/* Ajuste nos dias para telas de celular */
+.react-datepicker__portal .react-datepicker__day {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  line-height: 2.5rem !important;
+  font-size: 1.1rem !important;
+}
+
+.react-datepicker__portal .react-datepicker__day-name {
+  width: 2.5rem !important;
+  font-size: 0.9rem !important;
+}
+
+/* =========================================
+   MEDIA QUERIES PARA DISPOSITIVOS ESPECÍFICOS
+   ========================================= */
+
+/* Telas Muito Pequenas (iPhone SE antigo, Galaxy Fold fechado) - Largura < 360px */
+@media (max-width: 360px) {
+  .react-datepicker__portal .react-datepicker__day {
     width: 2rem !important;
     height: 2rem !important;
     line-height: 2rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .react-datepicker__portal .react-datepicker__day-name {
+    width: 2rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .react-datepicker__current-month {
+    font-size: 1rem !important;
   }
 }
 
-/* Remover triângulo do 'popper' se existir */
+/* Modo Paisagem em Celulares (Altura pequena) */
+@media (max-height: 600px) and (orientation: landscape) {
+  .react-datepicker__portal {
+    align-items: flex-start !important; /* Permite scroll se necessário */
+    overflow-y: auto !important;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .react-datepicker__portal .react-datepicker {
+    margin: auto !important; /* Centraliza no scroll */
+    max-width: 450px !important; /* Mais largo no landscape */
+    display: flex !important;
+    flex-direction: row !important; /* Tenta lado a lado se suportado ou mantém bloco */
+  }
+  
+  /* Ajuste para caber na vertical */
+  .react-datepicker__header {
+    padding-top: 0.5rem !important;
+  }
+  .react-datepicker__current-month {
+    margin-bottom: 0.2rem !important;
+  }
+  .react-datepicker__month-container {
+    float: none !important;
+  }
+}
+
+/* Remover triângulo do 'popper' */
 .react-datepicker__triangle {
   display: none !important;
 }
