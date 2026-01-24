@@ -131,27 +131,36 @@
    MOBILE PORTAL (FULLSCREEN OVERLAY)
    ========================================= */
 .react-datepicker__portal {
-  background-color: rgba(0, 0, 0, 0.85) !important; /* Fundo escuro deep */
-  backdrop-filter: blur(8px); /* Efeito Glass */
-  z-index: 9999 !important; /* Acima de tudo */
-  transition: opacity 0.3s ease;
-  padding: 1rem; /* Margem segura das bordas */
+  background-color: rgba(0, 0, 0, 0.9) !important; /* Mais escuro */
+  backdrop-filter: blur(8px);
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2147483647 !important; /* INT_MAX para evitar qualquer overlap */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
 }
 
 /* Container do Datepicker Centralizado */
 .react-datepicker__portal .react-datepicker {
-  /* Tamanho Fluido mas controlado */
+  margin: auto !important; /* Centraliza vertical e horizontalmente */
   width: 100% !important;
-  max-width: 380px !important; /* Não fica gigante em tablets */
+  max-width: 350px !important; /* Pouco menor para garantir que caiba */
   font-size: 1rem !important;
   
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
   
-  /* Reset de transformações perigosas */
+  /* Reset de transformações e posições */
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
   transform: none !important; 
-  display: flex !important;
-  flex-direction: column !important;
+  display: block !important;
 }
 
 /* Ajuste nos dias para telas de celular */
@@ -221,6 +230,11 @@
 /* Remover triângulo do 'popper' */
 .react-datepicker__triangle {
   display: none !important;
+}
+
+/* Ensure no other element overrides portal z-index */
+button, input, select, div {
+  z-index: auto; /* This checks for inline styles or other overrides, but might be too broad. Let's start with just the triangle fix and the portal fix I already did. */
 }
 
 

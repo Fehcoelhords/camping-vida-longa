@@ -61,6 +61,7 @@ function BookingForm() {
                 inputMode="none"
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()}
+                readOnly={isMobile}
               />
             </div>
           </div>
@@ -87,6 +88,7 @@ function BookingForm() {
                 inputMode="none"
                 autoComplete="off"
                 onKeyDown={(e) => e.preventDefault()}
+                readOnly={isMobile}
               />
             </div>
           </div>
