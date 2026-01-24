@@ -54,7 +54,7 @@
 /* --- Dias do Calendário --- */
 .react-datepicker__day {
   color: var(--dp-text-color) !important;
-  border-radius: 50% !important; /* Círculos perfeitos */
+  border-radius: 50% !important;
   width: 2.2rem !important;
   height: 2.2rem !important;
   line-height: 2.2rem !important;
@@ -85,7 +85,7 @@
 .react-datepicker__day--in-range {
   background-color: rgba(255, 122, 0, 0.2) !important;
   color: #fff !important;
-  border-radius: 0 !important; /* Quadrado arredondado no meio */
+  border-radius: 0 !important;
 }
 
 .react-datepicker__day--range-start {
@@ -127,104 +127,98 @@
   height: 10px !important;
 }
 
-/* =========================================
-   MOBILE DATEPICKER - PROFESSIONAL FIX
-   ========================================= */
-
-@media (max-width: 768px) {
-  /* Popper Container - Modal Style */
-  .react-datepicker-popper {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: calc(100% - 40px) !important;
-    max-width: 360px !important;
-    z-index: 999999 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Dark Backdrop Overlay */
-  .react-datepicker-popper::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(6px);
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  /* Calendar Container */
-  .react-datepicker {
-    width: 100% !important;
-    margin: 0 auto !important;
-    font-size: 1rem !important;
-    border: 2px solid rgba(255, 122, 0, 0.4) !important;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6) !important;
-  }
-
-  /* Header Adjustments */
-  .react-datepicker__header {
-    padding: 12px 0 8px !important;
-  }
-
-  .react-datepicker__current-month {
-    font-size: 1.15rem !important;
-    margin-bottom: 8px !important;
-  }
-
-  /* Day Names */
-  .react-datepicker__day-name {
-    width: 2.4rem !important;
-    margin: 0.25rem !important;
-    font-size: 0.85rem !important;
-  }
-
-  /* Days Grid */
-  .react-datepicker__day {
-    width: 2.4rem !important;
-    height: 2.4rem !important;
-    line-height: 2.4rem !important;
-    margin: 0.25rem !important;
-    font-size: 1rem !important;
-  }
-
-  /* Month Container Cleanup */
-  .react-datepicker__month-container {
-    width: 100% !important;
-  }
-
-  .react-datepicker__month {
-    margin: 0.6rem !important;
-  }
-}
-
-/* Prevent Keyboard on Mobile DatePicker */
-@media (max-width: 768px) {
-  .react-datepicker__input-container input[readonly] {
-    cursor: pointer !important;
-    user-select: none !important;
-    -webkit-user-select: none !important;
-    -webkit-touch-callout: none !important;
-  }
-}
-
 /* Remove Triangle Arrow */
 .react-datepicker__triangle {
   display: none !important;
 }
 
-/* Ensure Form Elements Don't Overlap */
-form {
-  position: relative;
-  z-index: 1;
+/* =========================================
+   PORTAL MODE - FULLSCREEN MODAL (MOBILE)
+   ========================================= */
+
+/* O Portal cria um overlay fullscreen - este é o container externo */
+.react-datepicker__portal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.92) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
 }
 
+/* Calendário dentro do Portal */
+.react-datepicker__portal .react-datepicker {
+  position: relative !important;
+  transform: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 340px !important;
+  border: 2px solid var(--dp-accent-color) !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8) !important;
+}
 
+/* Ajustes de tamanho para Portal Mobile */
+.react-datepicker__portal .react-datepicker__header {
+  padding: 16px 0 12px !important;
+}
+
+.react-datepicker__portal .react-datepicker__current-month {
+  font-size: 1.25rem !important;
+  margin-bottom: 12px !important;
+}
+
+.react-datepicker__portal .react-datepicker__day-name {
+  width: 2.5rem !important;
+  margin: 0.3rem !important;
+  font-size: 0.9rem !important;
+}
+
+.react-datepicker__portal .react-datepicker__day {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  line-height: 2.5rem !important;
+  margin: 0.3rem !important;
+  font-size: 1.05rem !important;
+}
+
+.react-datepicker__portal .react-datepicker__month {
+  margin: 0.8rem !important;
+}
+
+.react-datepicker__portal .react-datepicker__month-container {
+  width: 100% !important;
+}
+
+/* Botão de fechar (se existir) */
+.react-datepicker__portal .react-datepicker__close {
+  display: none !important;
+}
+
+/* Navegação no Portal */
+.react-datepicker__portal .react-datepicker__navigation {
+  top: 18px !important;
+}
+
+.react-datepicker__portal .react-datepicker__navigation--previous {
+  left: 20px !important;
+}
+
+.react-datepicker__portal .react-datepicker__navigation--next {
+  right: 20px !important;
+}
+
+/* Prevent keyboard on readonly inputs */
+input[readonly] {
+  cursor: pointer !important;
+  caret-color: transparent !important;
+}
