@@ -131,6 +131,18 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
     };
   }, [show]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (show) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [show]);
+
   function clearAllTimers() {
     (timeoutsRef.current || []).forEach((t) => clearTimeout(t));
     timeoutsRef.current = [];
