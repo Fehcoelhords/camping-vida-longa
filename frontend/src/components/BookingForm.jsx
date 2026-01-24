@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { FaCalendarAlt, FaUserFriends } from "react-icons/fa";
 import BookingModal from "./BookingModal";
@@ -14,7 +14,13 @@ function BookingForm() {
   const [guests, setGuests] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  
+  // Controle manual do calendário para mobile
+  const [startCalendarOpen, setStartCalendarOpen] = useState(false);
+  const [endCalendarOpen, setEndCalendarOpen] = useState(false);
+  
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -34,11 +40,13 @@ function BookingForm() {
     setIsModalOpen(true);
   };
 
+  const isAnyCalendarOpen = startCalendarOpen || endCalendarOpen;
+
   return (
     <>
       <form
         className={`bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative transition-opacity duration-300 ${
-          isMobile && isCalendarOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+          isMobile && isAnyCalendarOpen ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
         onSubmit={handleOpenModal}
       >
@@ -51,8 +59,12 @@ function BookingForm() {
             <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
               <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
               <DatePicker
+                ref={startDateRef}
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => {
+                  setStartDate(date);
+                  if (isMobile) setStartCalendarOpen(false);
+                }}
                 selectsStart
                 startDate={startDate}
                 endDate={endDate}
@@ -60,9 +72,10 @@ function BookingForm() {
                 className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 required
+                open={isMobile ? startCalendarOpen : undefined}
+                onInputClick={() => isMobile && setStartCalendarOpen(true)}
+                onClickOutside={() => isMobile && setStartCalendarOpen(false)}
                 readOnly={isMobile}
-                onCalendarOpen={() => setIsCalendarOpen(true)}
-                onCalendarClose={() => setIsCalendarOpen(false)}
               />
             </div>
           </div>
@@ -75,8 +88,12 @@ function BookingForm() {
             <div className="relative transition-all duration-300 group-hover:transform group-hover:-translate-y-1">
               <FaCalendarAlt className="absolute top-1/2 left-4 -translate-y-1/2 text-brand-orange text-lg z-10" />
               <DatePicker
+                ref={endDateRef}
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date) => {
+                  setEndDate(date);
+                  if (isMobile) setEndCalendarOpen(false);
+                }}
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
@@ -85,9 +102,10 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Selecione a data"
                 required
+                open={isMobile ? endCalendarOpen : undefined}
+                onInputClick={() => isMobile && setEndCalendarOpen(true)}
+                onClickOutside={() => isMobile && setEndCalendarOpen(false)}
                 readOnly={isMobile}
-                onCalendarOpen={() => setIsCalendarOpen(true)}
-                onCalendarClose={() => setIsCalendarOpen(false)}
               />
             </div>
           </div>
