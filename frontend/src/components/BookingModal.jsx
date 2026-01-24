@@ -216,6 +216,7 @@ export default function BookingModal({ show, onClose, bookingDetails }) {
       toast.success(
         "Pré-reserva realizada com sucesso! Verifique seu e-mail para instruções de pagamento."
       );
+      window.dispatchEvent(new CustomEvent('booking-success'));
       onClose();
     } catch (err) {
       console.error("Erro ao criar reserva:", err);

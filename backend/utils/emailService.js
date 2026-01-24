@@ -142,7 +142,50 @@ const sendNewBookingNotificationToOwner = async (booking) => {
   }
 };
 
+const sendFeedbackEmail = async (rating, feedback) => {
+  try {
+    const ownerEmail = process.env.OWNER_EMAIL;
+    if (!ownerEmail) {
+      console.error("OWNER_EMAIL não definido no .env");
+      return;
+    }
+    const fromAddress = "sistema@campingvidalonga.com.br";
+
+    console.log(`Enviando feedback para ${ownerEmail}...`);
+
+    await resend.emails.send({
+      from: `Sistema de Feedback <${fromAddress}>`,
+      to: [ownerEmail],
+      subject: `Novo Feedback Recebido! - ${rating} Estrelas`,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px;">
+          <h2 style="color: #FF7A00;">Novo Feedback do Usuário!</h2>
+          <p>Um usuário enviou uma avaliação sobre o site.</p>
+          <hr style="border-color: #eee;">
+          <h3 style="color: #333;">Avaliação</h3>
+          <div style="font-size: 2em; color: #FFD700; margin-bottom: 15px;">
+             ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}
+          </div>
+          <p><strong>Nota:</strong> ${rating} / 5</p>
+          <hr style="border-color: #eee;">
+          <h3 style="color: #333;">Comentário</h3>
+          <p style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; font-style: italic;">
+            "${feedback || 'Sem comentários adicionais.'}"
+          </p>
+          <hr style="border-color: #eee;">
+          <p style="font-size: 0.9em; color: #777;">Feedback enviado automaticamente pelo sistema do Camping Vida Longa.</p>
+        </div>
+      `,
+    });
+    console.log(`Feedback enviado para ${ownerEmail} com sucesso.`);
+  } catch (error) {
+    console.error("Ocorreu uma exceção ao enviar o feedback:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   sendPreBookingEmailToCustomer,
   sendNewBookingNotificationToOwner,
+  sendFeedbackEmail,
 };

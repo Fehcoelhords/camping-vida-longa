@@ -16,7 +16,32 @@ const LoadingSpinner = () => (
   </div>
 );
 
+const FeedbackModal = lazy(() => import("./components/FeedbackModal"));
+
 function App() {
+  const [showFeedback, setShowFeedback] = React.useState(false);
+
+  React.useEffect(() => {
+    // Timer de 1 minuto (60000 ms) navegando
+    const timer = setTimeout(() => {
+      setShowFeedback(true);
+    }, 60000);
+
+    const handleBookingSuccess = () => {
+      // 10 segundos após reserva
+      setTimeout(() => {
+        setShowFeedback(true);
+      }, 10000);
+    };
+
+    window.addEventListener('booking-success', handleBookingSuccess);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('booking-success', handleBookingSuccess);
+    };
+  }, []);
+
   return (
     <>
       <Toaster
@@ -33,6 +58,7 @@ function App() {
       />
 
       <Suspense fallback={<LoadingSpinner />}>
+        <FeedbackModal show={showFeedback} onClose={() => setShowFeedback(false)} />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />

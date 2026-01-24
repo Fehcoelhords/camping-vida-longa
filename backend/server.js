@@ -20,6 +20,7 @@ app.get("/api", (req, res) => {
 });
 app.use("/api/bookings", require("./routes/bookingRoutes"));
 app.use("/api/google", require("./routes/googleRoutes"));
+app.use("/api/feedback", require("./routes/feedbackRoutes"));
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando com sucesso na porta ${PORT}`);
