@@ -10,10 +10,11 @@ function BookingForm() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(new Date().setDate(new Date().getDate() + 1))
-  ); // Adicionando um valor padrão para endDate
+  );
   const [guests, setGuests] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -36,7 +37,9 @@ function BookingForm() {
   return (
     <>
       <form
-        className="bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative"
+        className={`bg-dark-bg/95 backdrop-blur-sm p-5 md:p-8 rounded-2xl shadow-2xl border-t-4 border-brand-orange w-full max-w-5xl mx-auto relative transition-opacity duration-300 ${
+          isMobile && isCalendarOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
         onSubmit={handleOpenModal}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 items-end">
@@ -57,9 +60,9 @@ function BookingForm() {
                 className="w-full bg-brand-green/20 hover:bg-brand-green/30 transition-colors pl-12 pr-4 py-3 text-main-text border border-brand-green/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-brand-orange placeholder-gray-400 font-medium cursor-pointer"
                 dateFormat="dd/MM/yyyy"
                 required
-                inputMode="none"
-                autoComplete="off"
-                onKeyDown={(e) => e.preventDefault()}
+                readOnly={isMobile}
+                onCalendarOpen={() => setIsCalendarOpen(true)}
+                onCalendarClose={() => setIsCalendarOpen(false)}
               />
             </div>
           </div>
@@ -82,9 +85,9 @@ function BookingForm() {
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Selecione a data"
                 required
-                inputMode="none"
-                autoComplete="off"
-                onKeyDown={(e) => e.preventDefault()}
+                readOnly={isMobile}
+                onCalendarOpen={() => setIsCalendarOpen(true)}
+                onCalendarClose={() => setIsCalendarOpen(false)}
               />
             </div>
           </div>
@@ -119,8 +122,6 @@ function BookingForm() {
         </div>
       </form>
 
-      {/* --- MUDANÇA IMPORTANTE AQUI --- */}
-      {/* Agora passamos os dados da reserva para o modal através da prop 'bookingDetails' */}
       <BookingModal
         show={isModalOpen}
         onClose={() => setIsModalOpen(false)}
